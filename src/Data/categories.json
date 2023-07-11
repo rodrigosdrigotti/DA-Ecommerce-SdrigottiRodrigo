@@ -1,0 +1,23 @@
+[
+    {   
+        "id": 1,
+        "category": "equipamiento",
+        "images": "https://cdn.shopify.com/s/files/1/0728/8355/files/Boundary_4.png?v=1619531402"
+    },
+    {   
+        "id": 2,
+        "category": "indumentaria-mujer",
+        "images": "https://p4.wallpaperbetter.com/wallpaper/288/288/950/brunette-pose-female-workout-wallpaper-preview.jpg"
+    },
+    {   
+        "id": 3,
+        "category": "indumentaria-hombre",
+        "images": "https://i.pinimg.com/564x/32/4e/98/324e9872cf66a533a390805acd9877f1.jpg"
+    },
+    {   
+        "id": 4,
+        "category": "accesorios",
+        "images": "https://us.123rf.com/450wm/alfastudio/alfastudio1708/alfastudio170803900/84987161-una-vista-desde-arriba-de-pesas-de-gimnasia-amarillas-estera-botella-azul-llena-de-agua.jpg?ver=6"
+    }
+]
+
