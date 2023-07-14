@@ -1,29 +1,36 @@
-import { Image, StyleSheet, View, Text } from 'react-native';
+import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
 import React from 'react';
 import Card from './Card';
 import { colors } from '../Global/Colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
-const ProductItem = ({item}) => {
+const ProductItem = ({item, navigation}) => {
+
+  const onSelect = (id) => {
+    navigation.navigate('Detail', {productId: item.id})
+  }
+  
   return (
-    <Card
-      additionalStyle={styles.additionalStylesCard}
-    >   
-        <View style={styles.imageContainer}>
-          <Image 
-            resizeMode='cover'
-            style = {styles.image}
-            source={{uri: item.images}}
-          />
-        </View>
-        <View style={styles.infoContainer}>
-          <Text style={styles.textCategory}>{item.title}</Text>
-          <Text style={styles.textPrice}>${item.price}</Text>
-        </View>
-        <View style={styles.iconContainer}>
-          <MaterialCommunityIcons name="arrow-right-bold-box" size={35} color={colors.secondary} />
-        </View>
-    </Card>
+    <Pressable onPress={() => onSelect(item.id)}>
+      <Card
+        additionalStyle={styles.additionalStylesCard}
+      >   
+          <View style={styles.imageContainer}>
+            <Image 
+              resizeMode='cover'
+              style = {styles.image}
+              source={{uri: item.images}}
+            />
+          </View>
+          <View style={styles.infoContainer}>
+            <Text style={styles.textCategory}>{item.title}</Text>
+            <Text style={styles.textPrice}>${item.price}</Text>
+          </View>
+          <View style={styles.iconContainer}>
+            <MaterialCommunityIcons name="arrow-right-bold-box" size={35} color={colors.secondary} />
+          </View>
+      </Card>
+    </Pressable>
   )
 }
 

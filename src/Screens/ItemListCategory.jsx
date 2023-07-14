@@ -5,21 +5,21 @@ import ProductItem from '../Components/ProductItem'
 import Search from '../Components/Search'
 
 const ItemListCategory = ({
-  category,
-  setCategory
+  navigation,
+  route
 }) => {
 
-  const [categorySelected, setCategorySelected] = useState(category)
+  const {category} = route.params;
   const [products, setProducts] = useState([])
   const [keyword, setKeyword] = useState("")
   const [keywordError, setKeywordError] = useState("")
 
   useEffect(()=> {
     //Lógica de manejo de category
-    const productsFiltered = productsRaw.filter(product => product.category === categorySelected && product.title.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase()))
+    const productsFiltered = productsRaw.filter(product => product.category === category && product.title.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase()))
     setProducts(productsFiltered)
 
-  }, [categorySelected, keyword])
+  }, [category, keyword])
 
   const onSearch = (input) => {
     
@@ -39,12 +39,12 @@ const ItemListCategory = ({
         <Search
           onSearch={onSearch}
           error={keywordError}
-          goBack={()=> setCategory("")}
+          goBack={()=> navigation.goBack()}
         />
         <FlatList
             data = {products}
             keyExtractor={product => product.id}
-            renderItem={({item}) => ProductItem({item})}
+            renderItem={({item}) => <ProductItem item={item} navigation={navigation}/>}
             showsVerticalScrollIndicator={false}
         />
     </View>

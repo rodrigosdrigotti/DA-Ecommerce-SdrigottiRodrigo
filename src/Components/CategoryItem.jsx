@@ -4,11 +4,11 @@ import Card from './Card';
 
 const CategoryItem = ({
   item,
-  setCategorySelected
+  navigation
 }) => {
   return (
     <Pressable
-      onPress={()=>setCategorySelected(item.category)}
+      onPress={() => navigation.navigate('ItemListCategory', {category: item.category})}
     >
       <Card additionalStyle={styles.additionalStylesCard}>
         <View style={styles.imageContainer}>

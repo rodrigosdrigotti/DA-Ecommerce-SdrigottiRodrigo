@@ -19,11 +19,11 @@ export default Header
 
 const styles = StyleSheet.create({
     containerHeader: {
-        height: '15%',
-        width: '85%',
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        alignItems: 'center',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 30,
+      paddingVertical: 40,
     },
     text: {
         fontSize: 30,
