@@ -13,6 +13,7 @@ const Home = ({
           <Text style={styles.title}>Categorias</Text>
         </View>
         <FlatList
+          style={styles.flat}
           data = {categories}
           keyExtractor={category => category.id}
           renderItem={({item}) => <CategoryItem item={item} navigation={navigation} />}
@@ -28,19 +29,22 @@ export default Home
 
 const styles = StyleSheet.create({
     container: {
-      alignItems: 'center',
       height: '100%',
+      width: '100%',
+      alignItems: 'center',
     },
     titleContainer: {
-      width: '100%',
-      paddingLeft: 30,
-      alignItems: 'flex-start',
-      justifyContent: 'flex-start',
-      marginBottom: 15,
+      paddingLeft: 40,
+      alignSelf: 'flex-start',
     },  
     title: {
       fontSize: 26,
       fontFamily: 'SofiaBold',
       color: colors.secondary,
     },
+    flat: {
+      paddingTop: 20,
+      height: '100%',
+      paddingHorizontal: 10
+    }
   })

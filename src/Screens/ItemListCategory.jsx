@@ -15,7 +15,6 @@ const ItemListCategory = ({
   const [keywordError, setKeywordError] = useState("")
 
   useEffect(()=> {
-    //Lógica de manejo de category
     const productsFiltered = productsRaw.filter(product => product.category === category && product.title.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase()))
     setProducts(productsFiltered)
 
@@ -42,6 +41,7 @@ const ItemListCategory = ({
           goBack={()=> navigation.goBack()}
         />
         <FlatList
+            style={styles.flat}
             data = {products}
             keyExtractor={product => product.id}
             renderItem={({item}) => <ProductItem item={item} navigation={navigation}/>}
@@ -55,7 +55,11 @@ export default ItemListCategory
 
 const styles = StyleSheet.create({
     container: {
-        height: '85%',
-        alignItems: 'center'
+      height: '100%',
+      alignItems: 'center',
+    },
+    flat: {
+      paddingTop: 10,
+      paddingHorizontal: 5
     }
 })

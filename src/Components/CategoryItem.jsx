@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, Image, View } from 'react-native';
+import { Pressable, StyleSheet, Text, Image, View, useWindowDimensions } from 'react-native';
 import React from 'react';
 import Card from './Card';
 
@@ -6,6 +6,9 @@ const CategoryItem = ({
   item,
   navigation
 }) => {
+
+  const { width } = useWindowDimensions();
+
   return (
     <Pressable
       onPress={() => navigation.navigate('ItemListCategory', {category: item.category})}
@@ -14,7 +17,7 @@ const CategoryItem = ({
         <View style={styles.imageContainer}>
           <Image 
             resizeMode='cover'
-            style = {styles.image}
+            style = {width > 350 ? styles.image : styles.imageSM}
             source={{uri: item.images}}
           />
         </View>
@@ -59,5 +62,11 @@ const styles = StyleSheet.create({
       borderRadius: 15,
       overflow: 'hidden',
     },
-  
+    imageSM: {
+      height: 110,
+      width: 90,
+      resizeMode: 'cover',
+      borderRadius: 15,
+      overflow: 'hidden',
+    },
 })

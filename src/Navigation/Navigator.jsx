@@ -16,28 +16,31 @@ const Navigator = () => {
         <SafeAreaView style = {styles.container}>
             <NavigationContainer>
                 <Stack.Navigator
-                    initialRouteName='Home'
+                    initialRouteName='SB Entrenamientos'
                     screenOptions={
-                        ({route}) => (
+                        ({route, navigation}) => (
                             {
                                 header: () => {
-                                    return <Header/>
+                                    return <Header route={route} navigation={navigation} />
                                 }
                             }
                         )
-                    }            
+                    }   
                 >
                     <Stack.Screen 
-                        name='Home'
+                        name='SB Entrenamientos'
                         component={Home}
+                        options={{ contentStyle:{backgroundColor: colors.primary} }}
                     />
                     <Stack.Screen
                         name='ItemListCategory'
                         component={ItemListCategory}
+                        options={{ contentStyle:{backgroundColor: colors.primary} }}
                     />
                     <Stack.Screen
                         name='Detail'
                         component={ItemDetail}
+                        options={{ contentStyle:{backgroundColor: colors.primary} }}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

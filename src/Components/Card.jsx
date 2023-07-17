@@ -1,11 +1,14 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, useWindowDimensions } from 'react-native';
 import React from 'react';
 import { colors } from '../Global/Colors';
 
 const Card = ({children, additionalStyle = []}) => {
+
+    const { width } = useWindowDimensions();
+
     return (
         <View style = {styles.cardContainer}>
-            <View style={[styles.card, additionalStyle]}>
+            <View style={width > 350 ? [styles.card, additionalStyle] : [styles.cardSM, additionalStyle]}>
                 {children}
             </View>
         </View>
@@ -30,8 +33,25 @@ const styles = StyleSheet.create({
             height: 5,
         },
         shadowOpacity: 0.15,
-        shadowRadius: 15,
-        elevation: 15,
+        shadowRadius: 8,
+        elevation: 8,
+        borderRadius: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cardSM: {
+        height: 200,
+        width: 125,
+        padding: 10,
+        backgroundColor: colors.white,
+        shadowColor: "#000",
+        shadowOffset:{
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
+        elevation: 8,
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center',

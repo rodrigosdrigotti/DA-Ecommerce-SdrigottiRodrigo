@@ -1,10 +1,12 @@
-import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
+import { Image, StyleSheet, View, Text, Pressable, useWindowDimensions } from 'react-native';
 import React from 'react';
 import Card from './Card';
 import { colors } from '../Global/Colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 const ProductItem = ({item, navigation}) => {
+
+  const { width } = useWindowDimensions();
 
   const onSelect = (id) => {
     navigation.navigate('Detail', {productId: item.id})
@@ -13,7 +15,7 @@ const ProductItem = ({item, navigation}) => {
   return (
     <Pressable onPress={() => onSelect(item.id)}>
       <Card
-        additionalStyle={styles.additionalStylesCard}
+        additionalStyle={width > 350 ? styles.additionalStylesCard : styles.additionalStylesCardSM}
       >   
           <View style={styles.imageContainer}>
             <Image 
@@ -22,7 +24,7 @@ const ProductItem = ({item, navigation}) => {
               source={{uri: item.images}}
             />
           </View>
-          <View style={styles.infoContainer}>
+          <View style={width > 350 ? styles.infoContainer : styles.infoContainerSM}>
             <Text style={styles.textCategory}>{item.title}</Text>
             <Text style={styles.textPrice}>${item.price}</Text>
           </View>
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 8,
-    elevation: 10,
+    elevation: 8,
   },
   additionalStylesCard: {
     flexDirection: 'row',
@@ -65,11 +67,26 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     borderRadius: 25,
   },
+  additionalStylesCardSM: {
+    flexDirection: 'row',
+    height: 120,
+    width: 275,
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    alignItems: 'flex-end',
+    borderRadius: 25,
+  },
   infoContainer: {
     flexDirection: 'column',
     textAlign: 'left',
     alignSelf: 'center',
     width: '50%',
+  },
+  infoContainerSM: {
+    flexDirection: 'column',
+    textAlign: 'left',
+    alignSelf: 'center',
+    width: '35%',
   },
   textCategory: {
     width: '100%',

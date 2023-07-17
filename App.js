@@ -5,7 +5,8 @@ export default function App() {
    
   const [fontsLoaded] = useFonts({
     'Sofia': require('./src/Assets/Fonts/SofiaSans/SofiaSansExtraCondensed-Regular.ttf'),
-    'SofiaBold': require('./src/Assets/Fonts/SofiaSans/SofiaSansExtraCondensed-Bold.ttf')
+    'SofiaBold': require('./src/Assets/Fonts/SofiaSans/SofiaSansExtraCondensed-Bold.ttf'),
+    'SofiaExtraBold': require('./src/Assets/Fonts/SofiaSans/SofiaSansExtraCondensed-ExtraBold.ttf'),
   });
   
   if (!fontsLoaded) {
