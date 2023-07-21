@@ -1,47 +1,50 @@
-import { Image, StyleSheet, View, Text, Pressable, useWindowDimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, useWindowDimensions } from 'react-native'
 import React from 'react';
 import Card from './Card';
 import { colors } from '../Global/Colors';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { Feather, Entypo } from '@expo/vector-icons'; 
 
-const ProductItem = ({item, navigation}) => {
+
+const CartItem = ({ cartItem }) => {
 
   const { width } = useWindowDimensions();
 
-  const onSelect = (id) => {
-    navigation.navigate('Detail', {productId: item.id})
-  }
-  
   return (
-    <Pressable onPress={() => onSelect(item.id)}>
-      <Card
+    <Card
         additionalStyle={width > 350 ? styles.additionalStylesCard : styles.additionalStylesCardSM}
       >   
+          <View>
+            <Feather name="check-square" size={20} color={colors.orange} />
+          </View>
           <View style={styles.imageContainer}>
             <Image 
               resizeMode='cover'
               style = {styles.image}
-              source={{uri: item.images}}
+              source={{uri: cartItem.images}}
             />
           </View>
           <View style={width > 350 ? styles.infoContainer : styles.infoContainerSM}>
-            <Text style={styles.textCategory}>{item.title}</Text>
-            <Text style={styles.textPrice}>${item.price}</Text>
-          </View>
-          <View style={styles.iconContainer}>
-            <MaterialCommunityIcons name="arrow-right-bold-box" size={35} color={colors.secondary} />
+            <Text style={styles.textCategory}>{cartItem.title}</Text>
+            <View style={styles.iconContainer}>
+              <Text style={styles.textPrice}>${cartItem.price}</Text>
+              <View style={styles.masMenosIcon}>
+                <Entypo name="minus" size={12} color="grey" />
+                <Text style={styles.masMenosIconText}>1</Text>
+                <Entypo name="plus" size={12} color="grey" />
+              </View>
+            </View>
           </View>
       </Card>
-    </Pressable>
   )
 }
 
-export default ProductItem
+export default CartItem
 
 const styles = StyleSheet.create({
   image: {
     height: 85,
     width: 85,
+    marginHorizontal: 15,
     resizeMode: 'cover',
     borderRadius: 15,
     overflow: 'hidden',
@@ -49,23 +52,17 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignSelf: 'center',
     borderRadius: 15,
-    shadowColor: "#000",
-    shadowOffset:{
-      width: 2,
-      height: 4,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 8,
   },
   additionalStylesCard: {
-    flexDirection: 'row',
+    flexDirection: 'row', 
     height: 120,
     width: 350,
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    alignItems: 'flex-end',
-    borderRadius: 25,
+    alignItems: 'center',
+    backgroundColor: 'none',
+    shadowColor: 'transparent', 
+    margin: -15 
   },
   additionalStylesCardSM: {
     flexDirection: 'row',
@@ -73,13 +70,12 @@ const styles = StyleSheet.create({
     width: 275,
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    alignItems: 'flex-end',
-    borderRadius: 25,
+    alignItems: 'center',
+    backgroundColor: 'none',
+    shadowColor: 'transparent',  
   },
   infoContainer: {
     flexDirection: 'column',
-    textAlign: 'left',
-    alignSelf: 'center',
     width: '50%',
   },
   infoContainerSM: {
@@ -96,14 +92,28 @@ const styles = StyleSheet.create({
   },
   textPrice: {
     width: 100,
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: 'Sofia',
     marginTop: 10,
     color: colors.orange,
   },
   iconContainer: {
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    marginBottom: 5
+    flexDirection: 'row',
+  },
+  masMenosIcon: {
+    flexDirection: 'row',
+    borderColor: 'grey',
+    borderWidth: 1,
+    borderRadius: 15,
+    paddingHorizontal: 7.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    gap: 10,
+  },
+  masMenosIconText: {
+    fontSize: 15,
+    fontFamily: 'SofiaBold',
+    color: 'grey',
   }
 })

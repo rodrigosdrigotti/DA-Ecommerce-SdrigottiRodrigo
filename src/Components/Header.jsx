@@ -2,20 +2,12 @@ import { StyleSheet, Text, View, Pressable, useWindowDimensions } from 'react-na
 import React, { useState } from 'react';
 import { colors } from '../Global/Colors'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faHouseUser, faBarsStaggered, faArrowLeft, faCartShopping } from '@fortawesome/free-solid-svg-icons';
-import ModalAlert from '../Components/Modal';
+import { faHouseUser, faBarsStaggered, faArrowLeft, faCartShopping, faEllipsisVertical, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const Header = ({route, navigation}) => {
 
   const { width } = useWindowDimensions();
   const ruta = route.name;
-  const [modalVisible, setModalVisible] = useState(false);
-  const [mensaje, setMensaje] = useState('');
-
-  const onPressCart = (product) => {
-    setModalVisible(!modalVisible); 
-    setMensaje('El carrito aun no funciona');
-  }
 
   return (
     <View>
@@ -25,22 +17,33 @@ const Header = ({route, navigation}) => {
           <Text style ={width > 350 ? styles.text : styles.textSM}>{route.name}</Text>
           <FontAwesomeIcon icon={faHouseUser} size={ width > 350 ? 32 : 28} color={ colors.secondary }/>
         </View>
+        : ruta === 'Checkout' ? 
+        <View style={styles.containerHeader}>
+          <Pressable onPress={()=>navigation.goBack()}>
+            <FontAwesomeIcon icon={faArrowLeft} size={ width > 350 ? 26 : 22 } color={ colors.secondary } />
+          </Pressable>
+          <Text style ={width > 350 ? styles.text : styles.textSM}>{route.name}</Text>
+          <FontAwesomeIcon icon={faEllipsisVertical} size={ width > 350 ? 26 : 22} color={ colors.secondary }/>
+        </View>
+        : ruta === 'Detail' ? 
+        <View style={styles.containerHeader}>
+          <Pressable onPress={()=>navigation.goBack()}>
+            <FontAwesomeIcon icon={faArrowLeft} size={ width > 350 ? 26 : 22 } color={ colors.secondary } />
+          </Pressable>
+          <Text style ={width > 350 ? styles.text : styles.textSM}>{route.name}</Text>
+          <FontAwesomeIcon icon={faHeart} size={ width > 350 ? 26 : 22} color={ colors.secondary }/>
+        </View>
       :
         <View style={styles.containerHeader}>
           <Pressable onPress={()=>navigation.goBack()}>
             <FontAwesomeIcon icon={faArrowLeft} size={ width > 350 ? 26 : 22 } color={ colors.secondary } />
           </Pressable>
           <Text style ={width > 350 ? styles.text : styles.textSM}>{route.name}</Text>
-          <Pressable onPress={() => onPressCart()}>
+          <Pressable onPress={() => navigation.navigate('Cart')}>
             <FontAwesomeIcon icon={faCartShopping} size={ width > 350 ? 26 : 22 } color={ colors.secondary } />
           </Pressable>
         </View>
       }
-        <ModalAlert
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          mensaje={mensaje}
-        />    
     </View>
   )
 }
