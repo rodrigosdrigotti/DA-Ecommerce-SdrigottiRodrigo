@@ -9,11 +9,12 @@ import OrderStack from "./OrderStack";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Animatable from 'react-native-animatable';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const TabsArray = [
     { route: 'Shop', label: 'Shop', activeIcon: 'grid', inactiveIcon: 'grid-outline', size: 24, component: ShopStack },
     { route: 'Cart', label: 'Cart', activeIcon: 'cart', inactiveIcon: 'cart-outline', size: 30, component: CartStack },
-    { route: 'Checkout', label: 'Order', activeIcon: 'ios-list-circle', inactiveIcon: 'ios-list-circle-outline', size: 30, component: OrderStack }
+    { route: 'Order', label: 'Order', activeIcon: 'ios-list-circle', inactiveIcon: 'ios-list-circle-outline', size: 30, component: OrderStack }
 ]
 
 const Tab = createBottomTabNavigator();
@@ -51,9 +52,8 @@ const TabButton = ( props ) => {
 }
 
 const Navigator = () => {
-
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaProvider style={styles.container}>
             <NavigationContainer>
                 <Tab.Navigator
                     screenOptions={{
@@ -77,7 +77,7 @@ const Navigator = () => {
                     })}
                 </Tab.Navigator>
             </NavigationContainer>
-        </SafeAreaView>
+        </SafeAreaProvider>
     );
 };
 
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   tabNavigator: {
-    height: 70,
+    height: 90,
     width: '100%',
     backgroundColor: colors.secondary,
     alignItems: 'center',
@@ -99,6 +99,6 @@ const styles = StyleSheet.create({
 demo: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 50
+    marginHorizontal: 50,
 }
 });

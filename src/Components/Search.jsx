@@ -16,6 +16,7 @@ const Search = ({
         setKeyword(text)
         onSearch(text)
     }
+    
     return (
         <>
         <View style ={  width > 350 ? styles.container : styles.containerSM }>

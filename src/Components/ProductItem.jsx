@@ -3,12 +3,17 @@ import React from 'react';
 import Card from './Card';
 import { colors } from '../Global/Colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { useDispatch } from 'react-redux';
+import { setIdSelected  } from '../Features/Shop/shopSlice';
 
 const ProductItem = ({item, navigation}) => {
 
   const { width } = useWindowDimensions();
 
+  const dispatch = useDispatch();
+
   const onSelect = (id) => {
+    dispatch(setIdSelected(item.id))
     navigation.navigate('Detail', {productId: item.id})
   }
   

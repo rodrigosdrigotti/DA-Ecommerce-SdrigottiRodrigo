@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View, Image, useWindowDimensions } from 'react-native'
+import { StyleSheet, Text, View, Image, useWindowDimensions, Pressable } from 'react-native'
 import React from 'react';
 import Card from './Card';
 import { colors } from '../Global/Colors';
-import { Feather, Entypo } from '@expo/vector-icons'; 
-
+import { Feather, Ionicons } from '@expo/vector-icons'; 
 
 const CartItem = ({ cartItem }) => {
 
@@ -27,11 +26,7 @@ const CartItem = ({ cartItem }) => {
             <Text style={styles.textCategory}>{cartItem.title}</Text>
             <View style={styles.iconContainer}>
               <Text style={styles.textPrice}>${cartItem.price}</Text>
-              <View style={styles.masMenosIcon}>
-                <Entypo name="minus" size={12} color="grey" />
-                <Text style={styles.masMenosIconText}>1</Text>
-                <Entypo name="plus" size={12} color="grey" />
-              </View>
+              <Ionicons style={styles.masMenosIcon} name="trash" size={22} color={colors.secondary} />
             </View>
           </View>
       </Card>
@@ -101,19 +96,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   masMenosIcon: {
-    flexDirection: 'row',
-    borderColor: 'grey',
-    borderWidth: 1,
-    borderRadius: 15,
-    paddingHorizontal: 7.5,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,
-    gap: 10,
+    marginLeft: 30,
   },
-  masMenosIconText: {
-    fontSize: 15,
-    fontFamily: 'SofiaBold',
-    color: 'grey',
-  }
 })

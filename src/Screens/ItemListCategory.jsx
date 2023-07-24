@@ -1,24 +1,24 @@
 import { FlatList, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import productsRaw from '../Data/products.json'
 import ProductItem from '../Components/ProductItem'
 import Search from '../Components/Search'
+import { useSelector } from 'react-redux'
 
 const ItemListCategory = ({
-  navigation,
-  route
+  navigation
 }) => {
 
-  const {category} = route.params;
+  const productsSelected = useSelector(state => state.shopReducer.value.productsSelected)
+
   const [products, setProducts] = useState([])
   const [keyword, setKeyword] = useState("")
   const [keywordError, setKeywordError] = useState("")
 
   useEffect(()=> {
-    const productsFiltered = productsRaw.filter(product => product.category === category && product.title.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase()))
+    const productsFiltered = productsSelected.filter(product => product.title.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase()))
     setProducts(productsFiltered)
 
-  }, [category, keyword])
+  }, [productsSelected, keyword])
 
   const onSearch = (input) => {
     

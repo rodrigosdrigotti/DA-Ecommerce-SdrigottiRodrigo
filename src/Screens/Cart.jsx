@@ -34,7 +34,7 @@ const Cart = ({ navigation }) => {
           <Text style={styles.priceSubtotal}>${total}</Text>
         </View>
         <View style={styles.buttonCartContainer}>
-          <Pressable style={width > 350 ? styles.buttonCart : styles.buttonCartSM} onPress={() => navigation.navigate('Checkout')}>
+          <Pressable style={width > 350 ? styles.buttonCart : styles.buttonCartSM} onPress={() => navigation.navigate('Order')}>
             <Text style={styles.buttonCartText}>Checkout</Text>
           </Pressable>
         </View>
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   totalContainer: {
+    backgroundColor: colors.primary,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     paddingVertical: 20,

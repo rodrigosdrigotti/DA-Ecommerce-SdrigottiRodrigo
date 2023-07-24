@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     paddingHorizontal: 40,
     width: 350,
-    backgroundColor: "none",
+    backgroundColor: colors.primary,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     width: "35%",
   },
   textCategory: {
-    width: "100%",
     fontSize: 20,
     fontFamily: "SofiaBold",
     color: colors.secondary,

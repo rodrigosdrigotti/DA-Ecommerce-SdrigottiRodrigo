@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable, useWindowDimensions } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import { colors } from '../Global/Colors'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouseUser, faBarsStaggered, faArrowLeft, faCartShopping, faEllipsisVertical, faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
       paddingHorizontal: 30,
       paddingVertical: 30,
       backgroundColor: colors.primary,
+      paddingTop:50,
     },
     text: {
         fontSize: 30,
