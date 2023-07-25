@@ -54,8 +54,9 @@ const ItemDetail = () => {
                 </Pressable>
                 <TextInput 
                   style={styles.masMenosIconText}
+                  keyboardType={"numeric"}
                   onChangeText={setInputToAdd}
-                  value={inputToAdd}
+                  value={String(inputToAdd)}
                 />
                 <Pressable onPress={() => dispatch(increment())}>
                   <Entypo name="plus" size={12} color="grey" />
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 10,
     marginVertical: 5,
-    marginLeft: 175
+    marginLeft: 150
   },
   masMenosIconText: {
     width: 20,
