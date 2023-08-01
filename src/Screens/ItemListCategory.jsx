@@ -3,21 +3,24 @@ import React, { useEffect, useState } from 'react'
 import ProductItem from '../Components/ProductItem'
 import Search from '../Components/Search'
 import { useSelector } from 'react-redux'
+import { useGetProductsByCategoryQuery } from '../Services/shopServices'
 
 const ItemListCategory = ({
   navigation
 }) => {
 
-  const productsSelected = useSelector(state => state.shopReducer.value.productsSelected)
+  const categorySelected = useSelector(state => state.shopReducer.value.categorySelected)
+  const { data: productsSelected, isLoading, isError } = useGetProductsByCategoryQuery(categorySelected);
 
   const [products, setProducts] = useState([])
   const [keyword, setKeyword] = useState("")
   const [keywordError, setKeywordError] = useState("")
 
   useEffect(()=> {
-    const productsFiltered = productsSelected.filter(product => product.title.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase()))
-    setProducts(productsFiltered)
-
+    if(productsSelected) {
+      const productsFiltered = productsSelected.filter(product => product.title.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase()))
+      setProducts(productsFiltered)
+    }
   }, [productsSelected, keyword])
 
   const onSearch = (input) => {

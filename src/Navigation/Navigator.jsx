@@ -1,15 +1,17 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, SafeAreaView, StatusBar, Platform, View } from "react-native";
+import { StyleSheet, StatusBar, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { colors } from "../Global/Colors";
 import ShopStack from "./ShopStack";
 import CartStack from "./CartStack";
 import OrderStack from "./OrderStack";
+import AuthStack from "./AuthStack";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
 const TabsArray = [
     { route: 'Shop', label: 'Shop', activeIcon: 'grid', inactiveIcon: 'grid-outline', size: 24, component: ShopStack },
@@ -52,30 +54,37 @@ const TabButton = ( props ) => {
 }
 
 const Navigator = () => {
+
+    const { email } = useSelector(state => state.userReducer.value)
+
     return (
         <SafeAreaProvider style={styles.container}>
             <NavigationContainer>
+            {
+                email ?
                 <Tab.Navigator
-                    screenOptions={{
-                        headerShown: false,
-                        tabBarStyle: styles.tabNavigator
-                    }}
+                screenOptions={{
+                    headerShown: false,
+                    tabBarStyle: styles.tabNavigator
+                }}
                 >
-                    {TabsArray.map((item, index) => {   
-                        return(
-                            <Tab.Screen 
-                                key={index}
-                                name={item.route} 
-                                component={item.component}
-                                options={{
-                                    tabBarShowLabel: false,
-                                    tabBarLabel: item.label,
-                                    tabBarButton: (props) => <TabButton {...props} item={item} />
-                                }}
-                            />
+                {TabsArray.map((item, index) => {   
+                    return(
+                        <Tab.Screen 
+                        key={index}
+                        name={item.route} 
+                        component={item.component}
+                        options={{
+                            tabBarShowLabel: false,
+                            tabBarLabel: item.label,
+                            tabBarButton: (props) => <TabButton {...props} item={item} />
+                        }}
+                        />
                         )
                     })}
                 </Tab.Navigator>
+                : <AuthStack />
+            } 
             </NavigationContainer>
         </SafeAreaProvider>
     );

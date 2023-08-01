@@ -3,10 +3,27 @@ import React from 'react';
 import Card from './Card';
 import { colors } from '../Global/Colors';
 import { Feather, Ionicons } from '@expo/vector-icons'; 
+import { useDispatch, useSelector } from 'react-redux';
+import { removeCartItem } from '../Features/Cart/cartSlice';
+import { useEffect, useState } from 'react';
 
 const CartItem = ({ cartItem }) => {
 
   const { width } = useWindowDimensions();
+
+  const dispatch = useDispatch();
+  const productIdSelected = useSelector((state) => state.shopReducer.value.productIdSelected);
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    setProduct(productIdSelected);
+  }, [productIdSelected]);
+
+  const onRemoveProductCart = () => {
+    dispatch(removeCartItem({
+      ...product
+    }))
+  }
 
   return (
     <Card
@@ -26,7 +43,10 @@ const CartItem = ({ cartItem }) => {
             <Text style={styles.textCategory}>{cartItem.title}</Text>
             <View style={styles.iconContainer}>
               <Text style={styles.textPrice}>${cartItem.price}</Text>
-              <Ionicons style={styles.masMenosIcon} name="trash" size={22} color={colors.secondary} />
+              <Text style={styles.textPrice}>- Cant: {cartItem.quantity}</Text>
+              <Pressable onPress={() => onRemoveProductCart()}>
+                <Ionicons style={styles.masMenosIcon} name="trash" size={22} color={colors.secondary} />
+              </Pressable>
             </View>
           </View>
       </Card>

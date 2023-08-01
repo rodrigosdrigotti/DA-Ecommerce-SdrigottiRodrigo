@@ -6,19 +6,16 @@ import { Entypo } from '@expo/vector-icons';
 import { useDispatch, useSelector } from "react-redux";
 import { increment, decrement } from "../Features/Counter/counterSlice";
 import { TextInput } from "react-native-gesture-handler";
+import { addCartItem } from "../Features/Cart/cartSlice";
 
 const ItemDetail = () => {
   const { width } = useWindowDimensions();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [mensaje, setMensaje] = useState("");
   const [inputToAdd, setInputToAdd] = useState(0);
 
   const dispatch = useDispatch();
   const count = useSelector( (state) => state.counterReducer.value);
 
-  const productIdSelected = useSelector(
-    (state) => state.shopReducer.value.productIdSelected
-  );
+  const productIdSelected = useSelector((state) => state.shopReducer.value.productIdSelected);
 
   const [product, setProduct] = useState(null);
 
@@ -27,10 +24,12 @@ const ItemDetail = () => {
     setInputToAdd(count);
   }, [productIdSelected, count]);
 
-  const onPressCart = (product) => {
-    setModalVisible(!modalVisible);
-    setMensaje(product.title + "\n\n" + "ha sido agregado al carrito" + "\n\n" + "Cantidad: " + count);
-  };
+  const onAddCart = () => {
+    dispatch(addCartItem({
+      ...product,
+      quantity: inputToAdd
+    }))
+  }
 
   return (
     <>
@@ -54,7 +53,7 @@ const ItemDetail = () => {
                 </Pressable>
                 <TextInput 
                   style={styles.masMenosIconText}
-                  keyboardType={"numeric"}
+                  keyboardType={'numeric'}
                   onChangeText={setInputToAdd}
                   value={String(inputToAdd)}
                 />
@@ -70,17 +69,11 @@ const ItemDetail = () => {
           <View style={styles.buttonCartContainer}>
             <Pressable
               style={width > 350 ? styles.buttonCart : styles.buttonCartSM}
-              onPress={() => onPressCart(product)} 
+              onPress={() => onAddCart()} 
             >
               <Text style={styles.buttonCartText}>+ Add to Cart</Text>
             </Pressable>
           </View>
-          <ModalAlert
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            product={product}
-            mensaje={mensaje}
-          />
         </View>
       ) : null}
     </>

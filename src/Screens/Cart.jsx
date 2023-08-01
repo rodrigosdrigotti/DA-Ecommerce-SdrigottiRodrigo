@@ -1,13 +1,26 @@
 import { StyleSheet, FlatList, View, Text, Pressable, useWindowDimensions } from "react-native";
 import React from "react";
-import allCart from "../Data/cart.json";
 import { colors } from "../Global/Colors";
 import CartItem from "../Components/CartItem";
+import { useDispatch, useSelector } from "react-redux";
+import { usePostCartMutation } from "../Services/shopServices";
+import { clearCart } from "../Features/Cart/cartSlice";
 
 const Cart = ({ navigation }) => {
 
-  const total = allCart.reduce((acumulador, currentItem) => acumulador += currentItem.price * currentItem.quantity, 0);
   const { width } = useWindowDimensions();
+  const { items: allCart, total, updatedAt, user }= useSelector(state => state.cartReducer.value);
+  const [ triggerPostCart, result ] = usePostCartMutation();
+  const dispatch = useDispatch();
+
+  const onConfirm = () => {
+    triggerPostCart({allCart, total, user, updatedAt}),
+    navigation.navigate('Order')
+  }
+  
+  const onClearCart = () => {
+    dispatch(clearCart())
+  }
 
   return (
     <View style={styles.container}>
@@ -19,6 +32,9 @@ const Cart = ({ navigation }) => {
         }}
         showsVerticalScrollIndicator={false}
       />
+      <Pressable onPress={() => onClearCart()}>
+        <Text style={styles.buttonCartText}>Clear</Text>
+      </Pressable>
       <View style={styles.totalContainer}>
         <View style={styles.bloqueTexto}>
           <Text style={styles.texto}>Selected Items</Text>
@@ -34,7 +50,7 @@ const Cart = ({ navigation }) => {
           <Text style={styles.priceSubtotal}>${total}</Text>
         </View>
         <View style={styles.buttonCartContainer}>
-          <Pressable style={width > 350 ? styles.buttonCart : styles.buttonCartSM} onPress={() => navigation.navigate('Order')}>
+          <Pressable style={width > 350 ? styles.buttonCart : styles.buttonCartSM} onPress={onConfirm}>
             <Text style={styles.buttonCartText}>Checkout</Text>
           </Pressable>
         </View>
