@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Pressable, useWindowDimensions } from "react-na
 import React from "react";
 import { colors } from "../Global/Colors";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faHouseUser, faBarsStaggered, faArrowLeft, faCartShopping, faEllipsisVertical, faHeart, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faBarsStaggered, faArrowLeft, faCartShopping, faEllipsisVertical, faHeart, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../Features/User/userSlice";
 
@@ -11,6 +11,7 @@ const Header = ({ route, navigation }) => {
   const ruta = route.name;
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.userReducer.value);
+  const { totalQuantity}= useSelector(state => state.cartReducer.value);
 
   return (
     <View>
@@ -51,22 +52,6 @@ const Header = ({ route, navigation }) => {
             color={colors.secondary}
           />
         </View>
-        ) : ruta === "Detail" ? (
-        <View style={styles.containerHeader}>
-          <Pressable onPress={() => navigation.goBack()}>
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              size={width > 350 ? 26 : 22}
-              color={colors.secondary}
-            />
-          </Pressable>
-          <Text style={width > 350 ? styles.text : styles.textSM}>{route.name}</Text>
-          <FontAwesomeIcon
-            icon={faHeart}
-            size={width > 350 ? 26 : 22}
-            color={colors.secondary}
-          />
-        </View>
         ) : (
           <View style={styles.containerHeader}>
             <Pressable onPress={() => navigation.goBack()}>
@@ -76,10 +61,17 @@ const Header = ({ route, navigation }) => {
             <Text style={width > 350 ? styles.text : styles.textSM}>{route.name}</Text>
             <Pressable onPress={() => navigation.navigate("Cart")}>
               <FontAwesomeIcon
+                style={styles.carritoIcon}
                 icon={faCartShopping}
                 size={width > 350 ? 26 : 22}
                 color={colors.secondary}
               />
+              { totalQuantity !== null ?
+                <View style={styles.containerNumeroCarrito}>
+                  <Text style={styles.numeroCarrito}>{totalQuantity}</Text>
+                </View>
+                : null
+              }
             </Pressable>
           </View>
           )
@@ -123,4 +115,24 @@ const styles = StyleSheet.create({
     height: 50,
     resizeMode: "contain",
   },
+  carritoIcon: {
+    position: 'relative'
+  },
+  containerNumeroCarrito: {
+    backgroundColor: colors.orange,
+    borderRadius: '50%',
+    width: 7.5,
+    height: 7.5,
+    padding: 10,
+    position: 'absolute',
+    right: -10,
+    top: '50%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  numeroCarrito: {
+    color: colors.white,
+    fontSize: 12,
+    fontFamily: 'SofiaExtraBold',
+  }
 });

@@ -7,12 +7,12 @@ export const cartSlice = createSlice({
             user: "Hardcoder user",
             updatedAt: "",
             total: null,
+            totalQuantity: null,
             items: []
         }
     },
     reducers: {
         addCartItem: (state, action) => {
-            //Logic to add item
             //1. Check productExists
             const productExists = state.value.items.some(item => item.id === action.payload.id)
 
@@ -27,6 +27,36 @@ export const cartSlice = createSlice({
                 })
             } else state.value.items.push(action.payload)
 
+            //3. Update total Quantity
+            let totalQuantity = 0;
+            state.value.items.forEach((item) => {
+                totalQuantity += item.quantity  
+            });
+            console.log(totalQuantity)
+            state.value.totalQuantity = totalQuantity;
+
+            //4. Update total
+            state.value.total = state.value.items.reduce(
+                (acc, currentItem) => acc += currentItem.price * currentItem.quantity,
+                0
+            )
+
+            //5. Update updatedAt
+            state.value.updatedAt = new Date().toLocaleString()
+        },
+        removeCartItem: (state,action) => {
+            //1. Remove item
+            const itemId = action.payload;
+            state.value.items = state.value.items.filter((item) => item.id !== itemId);
+
+            //2. Update total Quantity
+            let totalQuantity = 0;
+
+            state.value.items.forEach((item) => {
+                totalQuantity += item.quantity  
+            });
+            state.value.totalQuantity = totalQuantity;
+
             //3. Update total
             state.value.total = state.value.items.reduce(
                 (acc, currentItem) => acc += currentItem.price * currentItem.quantity,
@@ -36,16 +66,12 @@ export const cartSlice = createSlice({
             //4. Update updatedAt
             state.value.updatedAt = new Date().toLocaleString()
         },
-        removeCartItem: (state,action) => {
-            //Logic to remove item
-            const removeItem = state.value.items.filter((item) => item.id !== action.payload);
-            state.value.items = removeItem;
-        },
-        clearCart: (state) => {
+        clearCart: (state) => { 
             state.value = {
-                euser: "Hardcoder user",
+                user: "Hardcoder user",
                 updatedAt: "",
                 total: null,
+                totalQuantity: null,
                 items: []
             }
         }

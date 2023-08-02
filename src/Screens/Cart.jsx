@@ -32,9 +32,12 @@ const Cart = ({ navigation }) => {
         }}
         showsVerticalScrollIndicator={false}
       />
-      <Pressable onPress={() => onClearCart()}>
-        <Text style={styles.buttonCartText}>Clear</Text>
-      </Pressable>
+      { allCart.length !== 0 ?
+        <Pressable style={styles.buttonCancel} onPress={() => onClearCart()}>
+          <Text style={styles.buttonCartText}>Clear</Text>
+        </Pressable>
+        : null
+      }
       <View style={styles.totalContainer}>
         <View style={styles.bloqueTexto}>
           <Text style={styles.texto}>Selected Items</Text>
@@ -133,6 +136,16 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 50,
     width: 180,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonCancel: {
+    marginBottom: 15,
+    backgroundColor: colors.secondary,
+    borderRadius: 40,
+    padding: 10,
+    height: 40,
+    width: 150,
     alignItems: 'center',
     justifyContent: 'center',
   },
