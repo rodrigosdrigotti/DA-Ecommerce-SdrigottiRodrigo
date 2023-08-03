@@ -11,7 +11,7 @@ const Header = ({ route, navigation }) => {
   const ruta = route.name;
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.userReducer.value);
-  const { totalQuantity}= useSelector(state => state.cartReducer.value);
+  const { totalQuantity} = useSelector(state => state.cartReducer.value);
 
   return (
     <View>

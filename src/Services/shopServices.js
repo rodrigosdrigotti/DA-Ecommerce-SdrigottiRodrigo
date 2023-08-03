@@ -32,6 +32,19 @@ export const shopApi = createApi({
                 body: order
             })
         }),
+        getProfileImage: builder.query({
+            query: (localId) => `profileImages/${localId}.json`,
+        }),
+        //Aquí hacemos un put para que no me genere ninguna clave nueva de por medio.
+        postProfileImage: builder.mutation({
+            query: ({image, localId}) => ({
+                url: `profileImages/${localId}.json`,
+                method: "PUT",
+                body: {
+                    image: image
+                },
+            }),
+        }),
     })
 })
 
@@ -41,4 +54,6 @@ export const {
     useGetProductsByIdQuery,
     useGetProductsByCategoryQuery,
     usePostCartMutation,
+    useGetProfileImageQuery,
+    usePostProfileImageMutation,
 } = shopApi;

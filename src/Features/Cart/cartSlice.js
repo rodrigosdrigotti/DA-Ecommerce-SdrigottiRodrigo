@@ -32,7 +32,6 @@ export const cartSlice = createSlice({
             state.value.items.forEach((item) => {
                 totalQuantity += item.quantity  
             });
-            console.log(totalQuantity)
             state.value.totalQuantity = totalQuantity;
 
             //4. Update total
@@ -55,7 +54,11 @@ export const cartSlice = createSlice({
             state.value.items.forEach((item) => {
                 totalQuantity += item.quantity  
             });
-            state.value.totalQuantity = totalQuantity;
+            if(totalQuantity === 0){
+                state.value.totalQuantity = null
+            } else{
+                state.value.totalQuantity = totalQuantity;
+            }
 
             //3. Update total
             state.value.total = state.value.items.reduce(

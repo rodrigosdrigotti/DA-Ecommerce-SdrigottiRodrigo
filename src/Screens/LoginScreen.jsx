@@ -46,7 +46,9 @@ const LoginScreen = ({navigation}) => {
             }))
         }
         if(resultSignIn.isError) {
-            setSignIn(resultSignIn.error.data.error.message)
+            let string = resultSignIn.error.data.error.message;
+            let result = string.replace (/_/g, " ");
+            setSignIn(result)
         }
     }, [resultSignIn])
 
@@ -58,26 +60,31 @@ const LoginScreen = ({navigation}) => {
                 <InputForm 
                     label={"Email"}
                     onChange={(email) => setEmail(email)}
-                    error={errorEmail}
+                    /* error={errorEmail} */
                     icon={'mail'}
                 />
                 <InputForm 
                     label={"Password"}
                     onChange={(password)=> setPassword(password)}
-                    error={errorPassword}
+                    /* error={errorPassword} */
                     isSecure={true}
                     icon={'lock'}
                 />
+                <View style={styles.containerError}>
+                    <Text style={styles.error}>{errorEmail}</Text>
+                    <Text style={styles.error}>{errorPassword}</Text>
+                    <Text style={styles.error}>{errorSignIn}</Text>
+                </View>
                 <SubmitButton 
                     onPress={onSubmit}
                     title = "Login"
                 />
-                <Text style={styles.sub}>Not have an account?
+                <View style={styles.pie}>
+                    <Text style={styles.sub}>Not have an account?</Text>
                     <Pressable onPress={()=> navigation.navigate('Signup')}>
                         <Text style={styles.subLink}>Sign up</Text>
                     </Pressable>
-                </Text>
-                <Text style={styles.error}>{errorSignIn}</Text>
+                </View>
             </View>
             </ImageBackground>
         </View>
@@ -114,6 +121,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         opacity: 0.5
     },
+    pie: {
+        flexDirection: 'row'
+    },
     sub: {
         fontSize: 14,
         fontFamily: 'SofiaBold',
@@ -125,10 +135,15 @@ const styles = StyleSheet.create({
         color: colors.primary,
         marginLeft: 5
     },
+    containerError: {
+        height: 35,
+        flexDirection: 'column'
+    },
     error: {
         fontSize: 16,
-        color: 'red',
+        color: colors.orange,
         fontFamily: 'SofiaBold',
         fontStyle: 'italic',
+        textTransform: 'uppercase',
     },
 })

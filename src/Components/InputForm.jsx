@@ -7,7 +7,6 @@ import { Foundation } from '@expo/vector-icons';
 const InputForm = ({
     label, 
     onChange, 
-    error = "",
     isSecure = false,
     icon
 }) => {
@@ -27,14 +26,8 @@ const InputForm = ({
         onChangeText={onChangeText}
         secureTextEntry={isSecure}
         placeholder={label}
+        placeholderTextColor={'rgba(255,255,255,0.6)'}
       />
-      {error ? 
-        <Text style = {styles.error}>
-            {error}
-        </Text>
-        :
-        null
-    }
     </View>
   )
 }
@@ -58,23 +51,17 @@ const styles = StyleSheet.create({
         letterSpacing: 0.5,
         color: 'grey',
     },
-    error: {
-        fontSize: 16,
-        color: 'red',
-        fontFamily: 'SofiaBold',
-        fontStyle: 'italic',
-    },
     input: {
         backgroundColor: 'rgba(255,255,255,0.15)',
         outlineStyle: 'none',
-        shadowColor: 'black',
+        /* shadowColor: 'black',
         shadowOffset:{
         width: 0,
         height: 0,
         },
         shadowOpacity: .15,
         shadowRadius: 30,
-        elevation: 10,
+        elevation: 10, */
         width: '90%',
         height: 50,
         paddingLeft: 60,

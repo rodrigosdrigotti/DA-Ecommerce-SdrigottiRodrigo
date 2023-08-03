@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, ImageBackground, Pressable, useWindowDimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import { colors } from "../Global/Colors";
-import ModalAlert from "../Components/Modal";
 import { Entypo } from '@expo/vector-icons'; 
 import { useDispatch, useSelector } from "react-redux";
 import { increment, decrement } from "../Features/Counter/counterSlice";
 import { TextInput } from "react-native-gesture-handler";
 import { addCartItem } from "../Features/Cart/cartSlice";
+import Toast, { BaseToast } from 'react-native-toast-message';
 
 const ItemDetail = () => {
   const { width } = useWindowDimensions();
@@ -29,6 +29,31 @@ const ItemDetail = () => {
       ...product,
       quantity: inputToAdd
     }))
+  }
+
+  const toastConfig = {
+    success: (props) => (
+      <BaseToast
+        {...props}
+        style={{ borderLeftColor: colors.secondary }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+        text1Style={{
+          fontSize: 15,
+          fontWeight: '400'
+        }}
+        text2Style={{
+          fontSize: 13
+        }}
+      />
+    )
+  }
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: product.title,
+      text2: 'Ha sido agregado al carrito'
+    });
   }
 
   return (
@@ -69,11 +94,12 @@ const ItemDetail = () => {
           <View style={styles.buttonCartContainer}>
             <Pressable
               style={width > 350 ? styles.buttonCart : styles.buttonCartSM}
-              onPress={() => onAddCart()} 
+              onPress={() => {onAddCart(); showToast()}} 
             >
               <Text style={styles.buttonCartText}>+ Add to Cart</Text>
             </Pressable>
           </View>
+          <Toast config={toastConfig} />
         </View>
       ) : null}
     </>

@@ -30,7 +30,7 @@ const SignupScreen = ({ navigation }) => {
             )
         }
         if(result.isError) {
-            setSignUp(result.error.data.error.message)
+           setSignUp(result.error.data.error.message)
         }
     }, [result])
 
@@ -67,28 +67,34 @@ const SignupScreen = ({ navigation }) => {
             <ImageBackground source={require('../Assets/img/fondo-login.jpg')} style={styles.mainImage}>
             <View style={styles.container}>
                 <Image source={require('../Assets/img/logoSB.png')} style={styles.logo}/>
-                <InputForm label={"Email"} onChange={setEmail} error={errorMail} icon={'mail'}/>
+                <InputForm label={"Email"} onChange={setEmail} /* error={errorMail} */ icon={'mail'}/>
                 <InputForm
                     label={"Password"}
                     onChange={setPassword}
-                    error={errorPassword}
+                    /* error={errorPassword} */
                     isSecure={true}
                     icon={'lock'}
                 />
                 <InputForm
                     label={"Confirm Password"}
                     onChange={setconfirmPassword}
-                    error={errorConfirmPassword}
+                    /* error={errorConfirmPassword} */
                     isSecure={true}
                     icon={'lock'}
                 />
+                <View style={styles.containerError}>
+                    <Text style={styles.error}>{errorMail}</Text>
+                    <Text style={styles.error}>{errorPassword}</Text>
+                    <Text style={styles.error}>{errorConfirmPassword}</Text>
+                    <Text style={styles.error}>{errorSignUp}</Text>
+                </View>
                 <SubmitButton onPress={onSubmit} title="Signup" />
-                <Text style={styles.sub}>Already have an account?
-                <Pressable onPress={() => navigation.navigate("Login")}>
-                    <Text style={styles.subLink}>Login</Text>
-                </Pressable>
-                </Text>
-                <Text style={styles.error}>{errorSignUp}</Text>
+                <View style={styles.pie}>
+                    <Text style={styles.sub}>Already have an account?</Text>
+                    <Pressable onPress={() => navigation.navigate("Login")}>
+                        <Text style={styles.subLink}>Login</Text>
+                    </Pressable>
+                </View>
             </View>
             </ImageBackground>
         </View>
@@ -125,6 +131,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         opacity: 0.5
     },
+    pie: {
+        flexDirection: 'row'
+    },
     sub: {
         fontSize: 14,
         fontFamily: 'SofiaBold',
@@ -136,10 +145,15 @@ const styles = StyleSheet.create({
         color: colors.primary,
         marginLeft: 5
     },
+    containerError: {
+        height: 35,
+        flexDirection: 'column'
+    },
     error: {
         fontSize: 16,
-        color: 'red',
+        color: colors.orange,
         fontFamily: 'SofiaBold',
         fontStyle: 'italic',
+        textTransform: 'uppercase',
     },
 });

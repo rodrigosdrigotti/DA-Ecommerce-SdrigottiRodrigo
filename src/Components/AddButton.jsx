@@ -1,25 +1,32 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 import React from "react";
+import { colors } from "../Global/Colors";
 
-const SubmitButton = ({ onPress, title }) => {
+const AddButton = ({
+    title = "",
+    onPress = () => {},
+    color = colors.secondary,
+}) => {
     return (
-        <Pressable onPress={onPress} style={styles.button}>
+        <Pressable
+            style={{ ...styles.button, backgroundColor: color }}
+            onPress={onPress}
+        >
             <Text style={styles.text}>{title}</Text>
         </Pressable>
     );
 };
 
-export default SubmitButton;
+export default AddButton;
 
 const styles = StyleSheet.create({
     button: {
-        //marginTop: 20,
-        borderColor: 'rgba(255,255,255,0.5)',
-        borderWidth: 1.5,
+        backgroundColor: colors.secondary,
+        marginTop: 20,
         borderRadius: 40,
         padding: 10,
         height: 50,
-        width: '90%',
+        width: '70%',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -27,6 +34,6 @@ const styles = StyleSheet.create({
         fontFamily: 'SofiaBold',
         letterSpacing: 1,
         fontSize: 22,
-        color: 'rgba(255,255,255,0.5)',
+        color: colors.white,
     },
 });

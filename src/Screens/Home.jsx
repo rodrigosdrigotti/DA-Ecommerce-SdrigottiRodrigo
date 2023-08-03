@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View, Text } from 'react-native';
+import { FlatList, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import React from 'react';
 import CategoryItem from '../Components/CategoryItem';
 import { colors } from '../Global/Colors';
@@ -15,15 +15,19 @@ const Home = ({
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Categorias</Text>
         </View>
-        <FlatList
-          style={styles.flat}
-          data = {categories}
-          keyExtractor={category => category.id}
-          renderItem={({item}) => <CategoryItem item={item} navigation={navigation} />}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          numColumns={2}
-        />
+        { !isLoading ?
+          <FlatList
+            style={styles.flat}
+            data = {categories}
+            keyExtractor={category => category.id}
+            renderItem={({item}) => <CategoryItem item={item} navigation={navigation} />}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            numColumns={2}
+          />
+          :
+          <ActivityIndicator animating={true} style={styles.loader} size="large" color={colors.secondary} />
+        }
     </View>
   )
 }
@@ -35,6 +39,11 @@ const styles = StyleSheet.create({
       height: '100%',
       width: '100%',
       alignItems: 'center',
+    },
+    loader: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
     },
     titleContainer: {
       paddingLeft: 40,

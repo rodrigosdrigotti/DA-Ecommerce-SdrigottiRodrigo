@@ -34,7 +34,7 @@ const CartItem = ({ cartItem }) => {
             <Text style={styles.textCategory}>{cartItem.title}</Text>
             <View style={styles.iconContainer}>
               <Text style={styles.textPrice}>${cartItem.price}</Text>
-              <Text style={styles.textPrice}>- Cant: {cartItem.quantity}</Text>
+              <Text style={styles.textPrice}>Cant: {cartItem.quantity}</Text>
               <Pressable onPress={() => onRemoveProductCart(cartItem.id)}>
                 <Ionicons style={styles.masMenosIcon} name="trash" size={22} color={colors.secondary} />
               </Pressable>
@@ -82,7 +82,11 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flexDirection: 'column',
-    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    width: 180,
+    paddingHorizontal: 10,
   },
   infoContainerSM: {
     flexDirection: 'column',
@@ -93,6 +97,7 @@ const styles = StyleSheet.create({
   textCategory: {
     width: '100%',
     fontSize: 20,
+    alignSelf: 'flex-start',
     fontFamily: 'SofiaBold',
     color: colors.secondary,
   },
@@ -105,11 +110,12 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
   },
   masMenosIcon: {
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,
-    marginLeft: 30,
   },
 })

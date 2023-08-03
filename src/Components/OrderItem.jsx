@@ -1,15 +1,17 @@
-import { StyleSheet, Text, View, Pressable, useWindowDimensions } from "react-native";
+import { StyleSheet, Text, View, Pressable, useWindowDimensions, FlatList } from "react-native";
 import React from "react";
 import Card from "./Card";
 import { colors } from "../Global/Colors";
+import { useSelector } from "react-redux";
 
 const OrderItem = ({ order }) => {
-  const total = order.items.reduce(
+  const totalQ = order.items.reduce(
     (acc, currentItem) => (acc += currentItem.price * currentItem.quantity),
     0
   );
 
   const { width } = useWindowDimensions();
+  const { items: allCart, total, totalQuantity }= useSelector(state => state.cartReducer.value);
 
   return (
       <Card
@@ -25,6 +27,16 @@ const OrderItem = ({ order }) => {
             <View style={styles.bloqueTexto}>
                 <Text style={styles.textCategory}>Fecha</Text>
                 <Text style={styles.textCategory}>{new Date(order.createdAt).toLocaleString()}</Text>
+            </View>
+            <View style={styles.bloqueTexto}>
+              <FlatList
+                data={allCart}
+                keyExtractor={(cartItem) => cartItem.id}
+                renderItem={({ item }) => {
+                  return <Text style={styles.textCategory}>{item.title}   {'->'}   Cant: {item.quantity}</Text>;
+                }}
+                showsVerticalScrollIndicator={false}
+              />
             </View>
             <View style={styles.bloqueTexto}>
                 <Text style={styles.textoSubtotal}>Total</Text>
@@ -50,6 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderRadius: 40,
     paddingHorizontal: 40,
+    height: 500,
     width: 350,
     backgroundColor: colors.primary,
     shadowColor: "#000",

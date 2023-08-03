@@ -7,6 +7,7 @@ import ShopStack from "./ShopStack";
 import CartStack from "./CartStack";
 import OrderStack from "./OrderStack";
 import AuthStack from "./AuthStack";
+import MyProfileStack from "./MyProfileStack";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Animatable from 'react-native-animatable';
@@ -16,7 +17,8 @@ import { useSelector } from "react-redux";
 const TabsArray = [
     { route: 'Shop', label: 'Shop', activeIcon: 'grid', inactiveIcon: 'grid-outline', size: 24, component: ShopStack },
     { route: 'Cart', label: 'Cart', activeIcon: 'cart', inactiveIcon: 'cart-outline', size: 30, component: CartStack },
-    { route: 'Order', label: 'Order', activeIcon: 'ios-list-circle', inactiveIcon: 'ios-list-circle-outline', size: 30, component: OrderStack }
+    { route: 'Order', label: 'Order', activeIcon: 'ios-list-circle', inactiveIcon: 'ios-list-circle-outline', size: 30, component: OrderStack },
+    { route: 'Profile', label: 'Profile', activeIcon: 'person-circle', inactiveIcon: 'person-circle-outline', size: 30, component: MyProfileStack }
 ]
 
 const Tab = createBottomTabNavigator();
@@ -108,6 +110,6 @@ const styles = StyleSheet.create({
 demo: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 50,
+    marginHorizontal: 32.5,
 }
 });
