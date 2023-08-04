@@ -36,7 +36,8 @@ const Header = ({ route, navigation }) => {
             />
           </Pressable>
         </View>
-        ) : ruta === "Checkout" ? (
+        ) : ruta === "Checkout" || ruta === "My Profile" || ruta === "Image Selector" 
+        || ruta === "List Address" || ruta === "Location Selector" ? (
         <View style={styles.containerHeader}>
           <Pressable onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
@@ -98,6 +99,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingTop: 50,
   },
+  containerHeaderTwo: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 30,
+    paddingVertical: 30,
+    backgroundColor: colors.primary,
+    paddingTop: 50,
+  },
   text: {
     fontSize: 30,
     fontFamily: "SofiaBold",
@@ -134,5 +143,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 12,
     fontFamily: 'SofiaExtraBold',
+    position: 'absolute',
+    zIndex: 1,
   }
 });

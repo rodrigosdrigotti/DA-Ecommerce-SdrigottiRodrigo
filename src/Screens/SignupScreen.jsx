@@ -25,7 +25,13 @@ const SignupScreen = ({ navigation }) => {
             dispatch(
                 setUser({
                     email: result.data.email,
-                    idToken: result.data.idToken
+                    idToken: result.data.idToken,
+                    localId: result.data.localId,
+                    profileImage: "",
+                    location: {
+                        latitude: "",
+                        longitude: "",
+                    },
                 })
             )
         }
@@ -67,18 +73,16 @@ const SignupScreen = ({ navigation }) => {
             <ImageBackground source={require('../Assets/img/fondo-login.jpg')} style={styles.mainImage}>
             <View style={styles.container}>
                 <Image source={require('../Assets/img/logoSB.png')} style={styles.logo}/>
-                <InputForm label={"Email"} onChange={setEmail} /* error={errorMail} */ icon={'mail'}/>
+                <InputForm label={"Email"} onChange={setEmail} icon={'mail'}/>
                 <InputForm
                     label={"Password"}
                     onChange={setPassword}
-                    /* error={errorPassword} */
                     isSecure={true}
                     icon={'lock'}
                 />
                 <InputForm
                     label={"Confirm Password"}
                     onChange={setconfirmPassword}
-                    /* error={errorConfirmPassword} */
                     isSecure={true}
                     icon={'lock'}
                 />

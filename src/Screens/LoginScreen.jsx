@@ -42,7 +42,13 @@ const LoginScreen = ({navigation}) => {
         if(resultSignIn.isSuccess) {
             dispatch(setUser({
                 email: resultSignIn.data.email,
-                idToken: resultSignIn.data.idToken
+                idToken: resultSignIn.data.idToken,
+                localId: resultSignIn.data.localId,
+                profileImage: "",
+                location: {
+                    latitude: "",
+                    longitude: "",
+                }
             }))
         }
         if(resultSignIn.isError) {
