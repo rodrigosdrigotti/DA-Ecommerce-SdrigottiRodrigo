@@ -4,7 +4,7 @@ export const cartSlice = createSlice({
     name: "Cart",
     initialState: {
         value: {
-            user: "Hardcoder user",
+            user: "",
             updatedAt: "",
             total: null,
             totalQuantity: null,
@@ -71,7 +71,7 @@ export const cartSlice = createSlice({
         },
         clearCart: (state) => { 
             state.value = {
-                user: "Hardcoder user",
+                user: "",
                 updatedAt: "",
                 total: null,
                 totalQuantity: null,
