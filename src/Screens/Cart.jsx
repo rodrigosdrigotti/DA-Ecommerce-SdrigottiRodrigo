@@ -9,14 +9,15 @@ import { clearCart } from "../Features/Cart/cartSlice";
 const Cart = ({ navigation }) => {
 
   const { width } = useWindowDimensions();
-  const { items: allCart, total, updatedAt, user }= useSelector(state => state.cartReducer.value);
+  const { items: allCart, total, updatedAt, user, orderId }= useSelector(state => state.cartReducer.value);
   const { localId } = useSelector(state => state.userReducer.value)
   const [ triggerPostCart, result ] = usePostCartMutation();
   const dispatch = useDispatch();
 
   const onConfirm = () => {
-    triggerPostCart({allCart, total, user: localId, updatedAt}),
+    triggerPostCart({allCart, total, user: localId, updatedAt, orderId}),
     navigation.navigate('Order')
+    
   }
   
   const onClearCart = () => {

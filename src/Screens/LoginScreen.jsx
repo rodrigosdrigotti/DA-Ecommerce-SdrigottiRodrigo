@@ -7,8 +7,8 @@ import { useLoginMutation } from '../Services/authServices'
 import { useDispatch } from 'react-redux';
 import { isAtLeastSixCharacters, isValidEmail } from "../Validations/auth";
 import { useState, useEffect } from 'react';
-import { setUser } from '../Features/User/userSlice'
-
+import { setUser } from '../Features/User/userSlice';
+import { insertSession } from "../SQLite";
 
 const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
@@ -39,23 +39,39 @@ const LoginScreen = ({navigation}) => {
     }
         
     useEffect(()=> {
-        if(resultSignIn.isSuccess) {
-            dispatch(setUser({
-                email: resultSignIn.data.email,
-                idToken: resultSignIn.data.idToken,
-                localId: resultSignIn.data.localId,
-                profileImage: "",
-                location: {
-                    latitude: "",
-                    longitude: "",
+        (async ()=> {
+            try {
+                if(resultSignIn.isSuccess) {
+                    //Insert session in SQLite database
+                    console.log('inserting Session');
+                    const response = await insertSession({
+                        email: resultSignIn.data.email,
+                        idToken: resultSignIn.data.idToken,
+                        localId: resultSignIn.data.localId,
+                    })
+                    console.log('Session inserted: ');
+                    console.log(response);
+
+                    dispatch(setUser({
+                        email: resultSignIn.data.email,
+                        idToken: resultSignIn.data.idToken,
+                        localId: resultSignIn.data.localId,
+                        profileImage: "",
+                        location: {
+                            latitude: "",
+                            longitude: "",
+                        }
+                    }))
                 }
-            }))
-        }
-        if(resultSignIn.isError) {
-            let string = resultSignIn.error.data.error.message;
-            let result = string.replace (/_/g, " ");
-            setSignIn(result)
-        }
+                if(resultSignIn.isError) {
+                    let string = resultSignIn.error.data.error.message;
+                    let result = string.replace (/_/g, " ");
+                    setSignIn(result)
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        })()
     }, [resultSignIn])
 
     return (

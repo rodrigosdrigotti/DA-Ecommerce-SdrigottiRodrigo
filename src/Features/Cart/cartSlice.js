@@ -4,6 +4,7 @@ export const cartSlice = createSlice({
     name: "Cart",
     initialState: {
         value: {
+            orderId: "",
             user: "",
             updatedAt: "",
             total: null,
@@ -42,6 +43,9 @@ export const cartSlice = createSlice({
 
             //5. Update updatedAt
             state.value.updatedAt = new Date().toLocaleString()
+
+            //6. Update Order
+            state.value.orderId = state.value.items.length + 1;
         },
         removeCartItem: (state,action) => {
             //1. Remove item

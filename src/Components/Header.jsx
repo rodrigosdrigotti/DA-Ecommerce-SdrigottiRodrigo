@@ -5,13 +5,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faBarsStaggered, faArrowLeft, faCartShopping, faEllipsisVertical, faHeart, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../Features/User/userSlice";
+import { deleteSession } from "../SQLite";
 
 const Header = ({ route, navigation }) => {
   const { width } = useWindowDimensions();
   const ruta = route.name;
   const dispatch = useDispatch();
-  const { email } = useSelector((state) => state.userReducer.value);
+  const { email, localId } = useSelector((state) => state.userReducer.value);
   const { totalQuantity} = useSelector(state => state.cartReducer.value);
+
+  const onSignout = async () => {
+    try {
+        console.log("Deleting session...");
+        const response = await deleteSession(localId)
+        console.log("Session deleted: ")
+        console.log(response)
+        dispatch(logOut())
+    } catch (error) {
+        console.log('Error while sign out:')
+        console.log(error.message);
+    }
+  }
 
   return (
     <View>
@@ -28,7 +42,7 @@ const Header = ({ route, navigation }) => {
             color={colors.secondary}
           />
           <Text style={width > 350 ? styles.text : styles.textSM}>{route.name}</Text>
-          <Pressable onPress={() => dispatch(logOut())}>
+          <Pressable onPress={onSignout}>
             <FontAwesomeIcon
               icon={faRightFromBracket}
               size={width > 350 ? 32 : 28}

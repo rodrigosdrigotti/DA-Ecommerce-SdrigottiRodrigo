@@ -2,18 +2,22 @@ import { FlatList, StyleSheet, View, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ProductItem from '../Components/ProductItem'
 import Search from '../Components/Search'
-import { useSelector } from 'react-redux'
-import { useGetProductsByCategoryQuery } from '../Services/shopServices'
+import { useDispatch, useSelector } from 'react-redux'
+import { useGetProductsByCategoryQuery, useGetProductsQuery } from '../Services/shopServices'
 import { colors } from '../Global/Colors'
+import { setAllProducts } from '../Features/Shop/shopSlice'
 
 const ItemListCategory = ({
   navigation
 }) => {
 
+  const dispatch = useDispatch(); 
+  const { data: allProducts } = useGetProductsQuery();
+
   const categorySelected = useSelector(state => state.shopReducer.value.categorySelected)
   const { data: productsSelected, isLoading, isError } = useGetProductsByCategoryQuery(categorySelected);
 
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState(allProducts)
   const [keyword, setKeyword] = useState("")
   const [keywordError, setKeywordError] = useState("")
 
@@ -21,6 +25,7 @@ const ItemListCategory = ({
     if(productsSelected) {
       const productsFiltered = productsSelected.filter(product => product.title.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase()))
       setProducts(productsFiltered)
+      dispatch(setAllProducts(allProducts))
     }
   }, [productsSelected, keyword, isLoading])
 

@@ -12,7 +12,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getSession } from "../SQLite";
+import { setUser } from "../Features/User/userSlice";
 
 const TabsArray = [
     { route: 'Shop', label: 'Shop', activeIcon: 'grid', inactiveIcon: 'grid-outline', size: 24, component: ShopStack },
@@ -57,7 +59,28 @@ const TabButton = ( props ) => {
 
 const Navigator = () => {
 
-    const { email } = useSelector(state => state.userReducer.value)
+    const { email, localId } = useSelector(state => state.userReducer.value);
+    const dispatch = useDispatch();
+
+    //Get stored sessions
+    useEffect(()=> {
+        (async ()=> {
+            try {
+                console.log('Getting session...');
+                const session = await getSession()
+                console.log('Sesion: ');
+                console.log(session);
+                if (session?.rows.length) {
+                    const user = session.rows._array[0]
+                    console.log(user)
+                    dispatch(setUser(user))
+                }
+            } catch (error) {
+                console.log('Error getting session');
+                console.log(error.message);
+            }
+        })()
+    }, [])
 
     return (
         <SafeAreaProvider style={styles.container}>
