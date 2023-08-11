@@ -26,7 +26,7 @@ const ProductItem = ({item, navigation}) => {
             <Image 
               resizeMode='cover'
               style = {styles.image}
-              source={{uri: item.images}}
+              source={{uri: item.images[0]}}
             />
           </View>
           <View style={width > 350 ? styles.infoContainer : styles.infoContainerSM}>

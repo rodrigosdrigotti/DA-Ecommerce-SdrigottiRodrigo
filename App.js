@@ -10,12 +10,12 @@ export default function App() {
   useEffect(()=> {
     init()
       .then((result)=> {
-        console.log('Db initialized/dropped')
-        console.log(result);
+        //console.log('Db initialized/dropped')
+        //console.log(result);
       })
       .catch(err => {
-        console.log("Initialization DB failed:");
-        console.log(err.message);
+        //console.log("Initialization DB failed:");
+        //console.log(err.message);
     })
   }, [])
 
