@@ -63,8 +63,8 @@ const SignupScreen = ({ navigation }) => {
             else setErrorConfirmPassword('')
 
         } catch (err) {
-            console.log("Catch error");
-            console.log(err.message);
+            console.log("No es posible el Registro");
+            //console.log(err.message);
         }
     };
 

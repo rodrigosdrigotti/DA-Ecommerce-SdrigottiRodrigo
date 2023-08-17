@@ -27,7 +27,7 @@ const CartItem = ({ cartItem }) => {
             <Image 
               resizeMode='cover'
               style = {styles.image}
-              source={{uri: cartItem.images}}
+              source={{uri: cartItem.images[0]}}
             />
           </View>
           <View style={width > 350 ? styles.infoContainer : styles.infoContainerSM}>

@@ -2,18 +2,19 @@ import React, { useEffect, useRef } from "react";
 import { StyleSheet, StatusBar, Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { colors } from "../Global/Colors";
-import ShopStack from "./ShopStack";
-import CartStack from "./CartStack";
-import OrderStack from "./OrderStack";
-import AuthStack from "./AuthStack";
-import MyProfileStack from "./MyProfileStack";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
+
 import { getSession } from "../SQLite";
+import { colors } from "../Global/Colors";
+import MyProfileStack from "./MyProfileStack";
+import ShopStack from "./ShopStack";
+import CartStack from "./CartStack";
+import OrderStack from "./OrderStack";
+import AuthStack from "./AuthStack";
 import { setUser } from "../Features/User/userSlice";
 
 const TabsArray = [
@@ -66,18 +67,14 @@ const Navigator = () => {
     useEffect(()=> {
         (async ()=> {
             try {
-                console.log('Getting session...');
                 const session = await getSession()
-                console.log('Sesion: ');
-                console.log(session);
                 if (session?.rows.length) {
                     const user = session.rows._array[0]
-                    console.log(user)
                     dispatch(setUser(user))
                 }
             } catch (error) {
                 console.log('Error getting session');
-                console.log(error.message);
+                //console.log(error.message);
             }
         })()
     }, [])
@@ -88,7 +85,7 @@ const Navigator = () => {
             {
                 email ?
                 <Tab.Navigator
-                screenOptions={{
+                    screenOptions={{
                     headerShown: false,
                     tabBarStyle: styles.tabNavigator
                 }}

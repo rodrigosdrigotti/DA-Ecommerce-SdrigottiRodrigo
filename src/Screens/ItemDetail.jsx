@@ -1,14 +1,20 @@
-import { StyleSheet, Text, View, ImageBackground, Pressable, useWindowDimensions, FlatList } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image, Pressable, Dimensions, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
-import { colors } from "../Global/Colors";
-import { Entypo } from '@expo/vector-icons'; 
 import { useDispatch, useSelector } from "react-redux";
-import { increment, decrement } from "../Features/Counter/counterSlice";
-import { TextInput } from "react-native-gesture-handler";
+import { Entypo } from '@expo/vector-icons'; 
+import { colors } from "../Global/Colors";
 import { addCartItem } from "../Features/Cart/cartSlice";
+import Toast, { BaseToast } from 'react-native-toast-message';
+import { increment, decrement } from "../Features/Counter/counterSlice";
+
+const {width} = Dimensions.get('window');
+
+const SPACING = 5;
+const ITEM_HEIGHT = 350; 
+const BORDER_RADIUS = 30;
 
 const ItemDetail = () => {
-  const { width } = useWindowDimensions();
+  
   const [inputToAdd, setInputToAdd] = useState(0);
 
   const dispatch = useDispatch();
@@ -17,6 +23,7 @@ const ItemDetail = () => {
   const productIdSelected = useSelector((state) => state.shopReducer.value.productIdSelected);
 
   const [product, setProduct] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     setProduct(productIdSelected);
@@ -24,55 +31,111 @@ const ItemDetail = () => {
   }, [productIdSelected, count]);
 
   const onAddCart = () => {
-    dispatch(addCartItem({
-      ...product,
-      quantity: inputToAdd
-    }))
+    if(count <= productIdSelected.stock){
+      dispatch(addCartItem({
+        ...product,
+        quantity: inputToAdd
+      }))
+    } 
+    else{
+        console.log('No hay Stock')
+    }
+  }
+
+  const toastConfig = {
+    success: (props) => (
+      <BaseToast
+        {...props}
+        style={{ borderLeftColor: colors.secondary }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+        text1Style={{
+          fontSize: 15,
+          fontWeight: '400'
+        }}
+        text2Style={{
+          fontSize: 13
+        }}
+      />
+    )
+  }
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: product.title,
+      text2: 'Ha sido agregado al carrito'
+    });
   }
 
   return (
     <>
       {product ? (
         <View style={styles.productContainer}>
-          <View style={styles.imageContainer}>
-            <ImageBackground
-              resizeMode="cover"
-              style={styles.image}
-              source={{ uri: product.images[0] }}
+            <FlatList 
+              data={product.images}
+              keyExtractor={(_, index) => index.toString()}
+              onScroll={ e => {
+                const x = e.nativeEvent.contentOffset.x;
+                setCurrentIndex((x / width).toFixed(0));
+              }}
+              renderItem={({item, index}) => (
+                <View style={styles.imageContent}>
+                  <Image style={styles.image} source={{uri: item}}/>
+                </View>
+              )}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              
             />
-          </View>
-          <View style={styles.infoContainer}>
-            <View style={styles.countContainer}>
-              <Text style={width > 350 ? styles.productPrice : styles.productPriceSM}>
-                ${product.price}
-              </Text>
-              <View style={styles.masMenosIcon}>
-                <Pressable onPress={() => dispatch(decrement())}>
-                  <Entypo name="minus" size={12} color="grey" />
-                </Pressable>
-                <TextInput 
-                  style={styles.masMenosIconText}
-                  keyboardType={'numeric'}
-                  onChangeText={setInputToAdd}
-                  value={String(inputToAdd)}
-                />
-                <Pressable onPress={() => dispatch(increment())}>
-                  <Entypo name="plus" size={12} color="grey" />
-                </Pressable>
-              </View>
+            <View style={styles.pagination}>
+                {product.images.map((item, index) => {
+                  return (
+                    <View
+                      key={index}
+                      style={{
+                        width : currentIndex == index ? 10 : 8,
+                        height: currentIndex == index ? 10 : 8,
+                        borderRadius: currentIndex == index ? 5 : 4,
+                        backgroundColor: currentIndex == index ? colors.orange : 'gray',
+                        marginLeft: 5
+                      }}
+                    ></View>
+                  )
+                })}
             </View>
-            <Text style={styles.productTitle}>{product.title}</Text>
-            <Text style={styles.productTitleDescription}>Descripción:</Text>
-            <Text style={styles.productDescription}>{product.description}</Text>
-          </View>
-          <View style={styles.buttonCartContainer}>
-            <Pressable
-              style={width > 350 ? styles.buttonCart : styles.buttonCartSM}
-              onPress={() => {onAddCart(); showToast()}} 
-            >
+            <View style={styles.infoContainer}>
+              <View style={styles.countContainer}>
+                <Text style={width > 350 ? styles.productPrice : styles.productPriceSM}>
+                  ${product.price}
+                </Text>
+                <View style={styles.masMenosIcon}>
+                  <Pressable onPress={() => dispatch(decrement())}>
+                    <Entypo name="minus" size={12} color="grey" />
+                  </Pressable>
+                  <TextInput 
+                    style={styles.masMenosIconText}
+                    keyboardType={'numeric'}
+                    onChangeText={setInputToAdd}
+                    value={String(inputToAdd)}
+                  />
+                  <Pressable onPress={() => dispatch(increment())}>
+                    <Entypo name="plus" size={12} color="grey" />
+                  </Pressable>
+                </View>
+              </View>
+              <Text style={styles.productTitle}>{product.title}</Text>
+              <Text style={styles.productTitleDescription}>Descripción:</Text>
+              <Text style={styles.productDescription}>{product.description}</Text>
+            </View>
+            <View style={styles.buttonCartContainer}>
+              <Pressable
+                style={width > 350 ? styles.buttonCart : styles.buttonCartSM}
+                onPress={() => {onAddCart(); showToast()}} 
+              >
               <Text style={styles.buttonCartText}>+ Add to Cart</Text>
-            </Pressable>
-          </View>
+              </Pressable>
+            </View>
         </View>
       ) : null}
     </>
@@ -83,29 +146,30 @@ export default ItemDetail;
 
 const styles = StyleSheet.create({
   productContainer: {
-    height: "100%",
-    width: "100%",
-    alignItems: "flex-end",
+    alignContent: 'center',
+    justifyContent: 'center'
   },
-  backIcon: {
-    paddingHorizontal: 40,
-  },
-  imageContainer: {
-    height: 300,
-    width: "80%",
-    alignSelf: "center",
+  imageContent: {
+    marginHorizontal: SPACING * 5,
+    alignItems: 'center',
+    borderRadius: BORDER_RADIUS + SPACING * 2,
   },
   image: {
-    height: "100%",
-    width: "100%",
-    resizeMode: "cover",
-    borderRadius: 30,
-    overflow: "hidden",
+    width: 380,
+    height: ITEM_HEIGHT,
+    borderRadius: BORDER_RADIUS,
+    resizeMode: 'cover',
+  },
+  pagination: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 10,
   },
   infoContainer: {
     alignItems: "flex-start",
     paddingHorizontal: 40,
-    paddingTop: 20,
+    paddingTop: 10,
   },
   countContainer: {
     flexDirection: 'row',

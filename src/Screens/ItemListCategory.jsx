@@ -43,6 +43,8 @@ const ItemListCategory = ({
   } 
 
   return (
+    <>
+    {allProducts ? 
     <View style={styles.container}>
         <Search
           onSearch={onSearch}
@@ -61,6 +63,8 @@ const ItemListCategory = ({
         <ActivityIndicator animating={true} style={styles.loader} size="large" color={colors.secondary} />
         }
     </View>
+    :null}
+    </>
   )
 }
 

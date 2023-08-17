@@ -6,6 +6,7 @@ import ListAddress from "../Screens/ListAddress";
 import LocationSelector from "../Screens/LocationSelector";
 import { colors } from '../Global/Colors';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EditProfile from "../Screens/EditProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,11 @@ const MyProfileStack = () => {
       <Stack.Screen 
         name="Location Selector" 
         component={LocationSelector} 
+        options={{ contentStyle: { backgroundColor: colors.primary } }}
+      />
+      <Stack.Screen 
+        name="Edit Profile" 
+        component={EditProfile}
         options={{ contentStyle: { backgroundColor: colors.primary } }}
       />
     </Stack.Navigator>

@@ -43,14 +43,11 @@ const LoginScreen = ({navigation}) => {
             try {
                 if(resultSignIn.isSuccess) {
                     //Insert session in SQLite database
-                    console.log('inserting Session');
                     const response = await insertSession({
                         email: resultSignIn.data.email,
                         idToken: resultSignIn.data.idToken,
                         localId: resultSignIn.data.localId,
                     })
-                    console.log('Session inserted: ');
-                    console.log(response);
 
                     dispatch(setUser({
                         email: resultSignIn.data.email,
@@ -69,7 +66,8 @@ const LoginScreen = ({navigation}) => {
                     setSignIn(result)
                 }
             } catch (error) {
-                console.log(error.message);
+                console.log('No es posible el Inicio de Sesion')
+                //console.log(error.message);
             }
         })()
     }, [resultSignIn])
