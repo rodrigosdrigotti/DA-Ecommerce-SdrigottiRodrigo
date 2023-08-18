@@ -1,17 +1,17 @@
 import { StyleSheet, Text, View, TextInput, Image, Pressable, Dimensions, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Toast, { BaseToast } from 'react-native-toast-message';
 import { Entypo } from '@expo/vector-icons'; 
+
 import { colors } from "../Global/Colors";
 import { addCartItem } from "../Features/Cart/cartSlice";
-import Toast, { BaseToast } from 'react-native-toast-message';
 import { increment, decrement } from "../Features/Counter/counterSlice";
 
 const {width} = Dimensions.get('window');
-
-const SPACING = 5;
-const ITEM_HEIGHT = 350; 
+const ITEM_HEIGHT = 300; 
 const BORDER_RADIUS = 30;
+const SCREEN_WIDTH = width;
 
 const ItemDetail = () => {
   
@@ -85,6 +85,7 @@ const ItemDetail = () => {
               )}
               horizontal
               pagingEnabled
+              style={{width: SCREEN_WIDTH, height: ITEM_HEIGHT}}
               showsHorizontalScrollIndicator={false}
               
             />
@@ -136,6 +137,7 @@ const ItemDetail = () => {
               <Text style={styles.buttonCartText}>+ Add to Cart</Text>
               </Pressable>
             </View>
+            <Toast config={toastConfig} />
         </View>
       ) : null}
     </>
@@ -147,16 +149,17 @@ export default ItemDetail;
 const styles = StyleSheet.create({
   productContainer: {
     alignContent: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: 50,
   },
   imageContent: {
-    marginHorizontal: SPACING * 5,
+    justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: BORDER_RADIUS + SPACING * 2,
+    width: SCREEN_WIDTH,
   },
   image: {
-    width: 380,
-    height: ITEM_HEIGHT,
+    width: SCREEN_WIDTH * .85,
+    height: ITEM_HEIGHT * .95,
     borderRadius: BORDER_RADIUS,
     resizeMode: 'cover',
   },
@@ -169,7 +172,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     alignItems: "flex-start",
     paddingHorizontal: 40,
-    paddingTop: 10,
+    paddingTop: 5,
   },
   countContainer: {
     flexDirection: 'row',

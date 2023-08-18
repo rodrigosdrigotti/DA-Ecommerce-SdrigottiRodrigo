@@ -22,7 +22,7 @@ const MyProfile = ({navigation}) => {
         navigation.navigate('List Address')
     }
     const launchEdit = async () => {
-        navigation.navigate('Edit Profile')
+        navigation.navigate('Cards')
     }
 
     return (

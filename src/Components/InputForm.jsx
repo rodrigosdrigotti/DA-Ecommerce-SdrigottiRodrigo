@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        width: '100%'
+        width: '90%'
     },
     subtitle: {
         width: '90%',
@@ -53,16 +53,8 @@ const styles = StyleSheet.create({
     },
     input: {
         backgroundColor: 'rgba(255,255,255,0.15)',
-        outlineStyle: 'none',
-        /* shadowColor: 'black',
-        shadowOffset:{
-        width: 0,
-        height: 0,
-        },
-        shadowOpacity: .15,
-        shadowRadius: 30,
-        elevation: 10, */
-        width: '90%',
+        //outlineStyle: 'none',
+        width: '100%',
         height: 50,
         paddingLeft: 60,
         fontFamily: 'Sofia',
@@ -81,7 +73,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         alignItems: 'center',
         justifyContent: 'center',
-        left: 25,
+        left: 5,
         top: 5
     }
 })
