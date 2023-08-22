@@ -10,15 +10,18 @@ const OrderHistoryItem = ({ item }) => {
                 <Text style={styles.textCategory}>Order: {item.orderId}</Text>
                 <Text style={styles.textCategory}>Fecha: {(item.updatedAt).split(',')[0]}</Text>
             </View>
-            {item.allCart.map((ord, i) => (
-                <>
-                <View style={styles.infoContainer}>
-                    <Text style={styles.textPrice}>{ord.title}</Text>
-                    <Text style={styles.textPrice}>Cant. {ord.quantity}</Text>
-                    <Text style={styles.textPrice}>Total: {item.total}</Text>
-                </View>
-                </>
-            ))}
+            {item.allCart.map((ord) => {
+                return (
+                    <View key={ord.id} style={styles.infoContainer}>
+                        <Text style={styles.textPrice}>{ord.title}</Text>
+                        <Text style={styles.textPrice}>Cant. {ord.quantity}</Text>
+                        <Text style={styles.textPrice}>Price: {ord.price}</Text>
+                    </View>
+                )
+            })}
+            <View style={styles.boxTotal}> 
+                <Text style={styles.textTotal}>Total Purchase: {item.total}</Text>
+            </View>
         </View>
     );
 };
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 10,
-    marginTop: 30,
+    marginTop: 20,
   },
   infoContainer: {
     flexDirection: 'row',
@@ -49,10 +52,24 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "SofiaBold",
     color: colors.secondary,
+    marginTop: 30,
   },
   textPrice: {
     fontSize: 22,
     fontFamily: "Sofia",
     color: colors.orange,
+  },
+  boxTotal: {
+    marginTop: 15,
+    padding: 10,
+    width: 200,
+    backgroundColor: colors.secondary,
+    borderRadius: 15,
+    alignItems: 'center'
+  },
+  textTotal: {
+    fontSize: 22,
+    fontFamily: "Sofia",
+    color: colors.white,
   },
 });
