@@ -2,35 +2,25 @@ import { StyleSheet, Text, View, Pressable, useWindowDimensions, FlatList } from
 import React from "react";
 import Card from "./Card";
 import { colors } from "../Global/Colors";
-import { useSelector } from "react-redux";
 
-const OrderItem = ({ order }) => {
-  const totalQ = order.items.reduce(
+const OrderItem = ({ order, total, updatedAt}) => {
+  /* const totalQ = order.allCart.reduce(
     (acc, currentItem) => (acc += currentItem.price * currentItem.quantity),
     0
-  );
+  ); */
 
   const { width } = useWindowDimensions();
-  const { items: allCart, total, totalQuantity }= useSelector(state => state.cartReducer.value);
 
   return (
-      <Card
-        additionalStyle={
-          width > 350
-            ? styles.additionalStylesCard
-            : styles.additionalStylesCardSM
-        }
-      >
-        <View
-          style={width > 350 ? styles.infoContainer : styles.infoContainerSM}
-        >
+    <Card additionalStyle={ width > 350 ? styles.additionalStylesCard : styles.additionalStylesCardSM } >
+        <View style={width > 350 ? styles.infoContainer : styles.infoContainerSM}>
             <View style={styles.bloqueTexto}>
                 <Text style={styles.textCategory}>Fecha</Text>
-                <Text style={styles.textCategory}>{new Date(order.createdAt).toLocaleString()}</Text>
+                <Text style={styles.textCategory}>{(updatedAt).split(',')[0]}</Text>
             </View>
             <View style={styles.bloqueTexto}>
               <FlatList
-                data={allCart}
+                data={order}
                 keyExtractor={(cartItem) => cartItem.id}
                 renderItem={({ item }) => {
                   return <Text style={styles.textCategory}>{item.title}   {'->'}   Cant: {item.quantity}</Text>;
@@ -52,14 +42,13 @@ const OrderItem = ({ order }) => {
             </View>
         </View>
       </Card>
-  );
+      );
 };
 
 export default OrderItem;
 
 const styles = StyleSheet.create({
   additionalStylesCard: {
-    flexDirection: "row",
     borderRadius: 40,
     paddingHorizontal: 40,
     height: 500,
@@ -74,12 +63,12 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     elevation: 20,
     marginTop: 50,
+    alignSelf: 'center'
   },
   additionalStylesCardSM: {
-    flexDirection: "row",
     borderRadius: 40,
     width: 275,
-    backgroundColor: "none",
+    backgroundColor: colors.primary,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -89,6 +78,7 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     elevation: 20,
     marginTop: 50,
+    alignSelf: 'center'
   },
   infoContainer: {
     flexDirection: "column",

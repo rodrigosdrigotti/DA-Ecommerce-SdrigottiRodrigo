@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, StatusBar, Platform, View } from "react-native";
+import { StyleSheet, StatusBar, Platform, View, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Animatable from 'react-native-animatable';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -60,7 +59,7 @@ const TabButton = ( props ) => {
 
 const Navigator = () => {
 
-    const { email, localId } = useSelector(state => state.userReducer.value);
+    const { email } = useSelector(state => state.userReducer.value);
     const dispatch = useDispatch();
 
     //Get stored sessions
@@ -102,7 +101,7 @@ const Navigator = () => {
                             tabBarButton: (props) => <TabButton {...props} item={item} />
                         }}
                         />
-                        )
+                    )
                     })}
                 </Tab.Navigator>
                 : <AuthStack />

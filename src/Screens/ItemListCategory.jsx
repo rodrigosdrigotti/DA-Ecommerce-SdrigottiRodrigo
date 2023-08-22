@@ -17,17 +17,17 @@ const ItemListCategory = ({
   const categorySelected = useSelector(state => state.shopReducer.value.categorySelected)
   const { data: productsSelected, isLoading, isError } = useGetProductsByCategoryQuery(categorySelected);
 
-  const [products, setProducts] = useState(allProducts)
+  const [products, setProducts] = useState([])
   const [keyword, setKeyword] = useState("")
   const [keywordError, setKeywordError] = useState("")
-
+  
   useEffect(()=> {
     if(productsSelected) {
       const productsFiltered = productsSelected.filter(product => product.title.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase()))
       setProducts(productsFiltered)
       dispatch(setAllProducts(allProducts))
     }
-  }, [productsSelected, keyword, isLoading])
+  }, [productsSelected, keyword, isLoading, allProducts])
 
   const onSearch = (input) => {
     
@@ -44,7 +44,7 @@ const ItemListCategory = ({
 
   return (
     <>
-    {allProducts ? 
+    {allProducts ?
     <View style={styles.container}>
         <Search
           onSearch={onSearch}

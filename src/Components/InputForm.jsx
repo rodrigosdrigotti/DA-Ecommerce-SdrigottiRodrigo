@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { colors } from '../Global/Colors';
 import { Foundation } from '@expo/vector-icons'; 

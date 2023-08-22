@@ -3,14 +3,11 @@ import React from 'react';
 import Card from './Card';
 import { useDispatch } from 'react-redux';
 import { setCategorySelected  } from '../Features/Shop/shopSlice';
+import { colors } from '../Global/Colors';
 
-const CategoryItem = ({
-  item,
-  navigation
-}) => {
+const CategoryItem = ({ item, navigation }) => {
 
   const { width } = useWindowDimensions();
-
   const dispatch = useDispatch();
 
   const onSelectCategory = () => {
@@ -55,6 +52,7 @@ const styles = StyleSheet.create({
     imageContainer: {
       alignSelf: 'center',
       borderRadius: 15,
+      backgroundColor: colors.white,
       shadowColor: "#000",
       shadowOffset:{
         width: 2,

@@ -36,9 +36,7 @@ const ImageSelector = ({ navigation }) => {
                 //base64: true,
                 quality: 1,
             });
-
-            console.log(result.assets);
-
+            
             if (!result.canceled) {
                 setImage(result.assets[0].uri);
             }
@@ -50,10 +48,8 @@ const ImageSelector = ({ navigation }) => {
             // Request device storage access permission
             const { status } = await MediaLibrary.requestPermissionsAsync();
             if (status === "granted") {
-                console.log("Only valid on emulators and physical devices");
                 // Save image to media library and create an asset
                 const response = await MediaLibrary.createAssetAsync(image);
-                console.log(response.uri);
                 //Save image link on profileImages remote location
                 triggerSaveImage({
                     image: response.uri,
@@ -63,7 +59,7 @@ const ImageSelector = ({ navigation }) => {
                 dispatch(saveImage(response.uri));
             }
         } catch (error) {
-            console.log(error);
+            console.log('No se pudo cargar la imagen');
         }
         navigation.goBack();
     };

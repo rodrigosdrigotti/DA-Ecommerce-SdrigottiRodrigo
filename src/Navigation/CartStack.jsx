@@ -3,6 +3,7 @@ import Header from '../Components/Header';
 import Cart from '../Screens/Cart';
 import { colors } from '../Global/Colors';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Order from "../Screens/Order";
 
 const Stack = createNativeStackNavigator();
 

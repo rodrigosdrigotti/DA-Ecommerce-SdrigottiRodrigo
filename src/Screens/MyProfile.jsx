@@ -1,10 +1,9 @@
 import { Image, StyleSheet, View, Text, Pressable } from "react-native";
-import React from "react";
-import AddButton from "../Components/AddButton";
+import { FontAwesome, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { useSelector } from "react-redux";
+import React from "react";
 import { useGetProfileImageQuery } from "../Services/shopServices";
 import { colors } from "../Global/Colors";
-import { FontAwesome, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 
 const MyProfile = ({navigation}) => {
 
@@ -23,6 +22,18 @@ const MyProfile = ({navigation}) => {
     }
     const launchEdit = async () => {
         navigation.navigate('Cards')
+    }
+
+    const launchHistory = async () => {
+        navigation.navigate('Order History')
+    }
+
+    const launchNotifications = async () => {
+        navigation.navigate('Notifications')
+    }
+
+    const launchWishlist = async () => {
+        navigation.navigate('Wishlist')
     }
 
     return (
@@ -64,17 +75,17 @@ const MyProfile = ({navigation}) => {
                         <Text style={styles.infoListText}>Add Profile Picture</Text>
                         <MaterialIcons name="keyboard-arrow-right" size={24} color="grey" />
                     </Pressable>
-                    <Pressable style={styles.infoList} onPress={launchEdit}>
+                    <Pressable style={styles.infoList} onPress={launchWishlist}>
                         <FontAwesome name="user" size={24} color={colors.secondary} />
                         <Text style={styles.infoListText}>WishList</Text>
                         <MaterialIcons name="keyboard-arrow-right" size={24} color="grey" />
                     </Pressable>
-                    <Pressable style={styles.infoList} onPress={launchEdit}>
+                    <Pressable style={styles.infoList} onPress={launchHistory}>
                         <FontAwesome5 name="clipboard-list" size={24} color={colors.secondary} />
                         <Text style={styles.infoListText}>Order History</Text>
                         <MaterialIcons name="keyboard-arrow-right" size={24} color="grey" />
                     </Pressable>
-                    <Pressable style={styles.infoList} onPress={launchEdit}>
+                    <Pressable style={styles.infoList} onPress={launchNotifications}>
                         <MaterialIcons name="notifications" size={24} color={colors.secondary} />
                         <Text style={styles.infoListText}>Notifications</Text>
                         <MaterialIcons name="keyboard-arrow-right" size={24} color="grey" />
@@ -131,7 +142,7 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         paddingHorizontal: 30,
-        paddingTop: 60,
+        paddingTop: 100,
         width: '100%',
         gap: 30,
     },

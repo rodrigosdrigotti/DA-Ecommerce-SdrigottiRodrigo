@@ -4,7 +4,7 @@ import Card from './Card';
 import { colors } from '../Global/Colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { useDispatch } from 'react-redux';
-import { setIdSelected  } from '../Features/Shop/shopSlice';
+import { setAllProducts, setIdSelected  } from '../Features/Shop/shopSlice';
 
 const ProductItem = ({item, navigation}) => {
 
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignSelf: 'center',
     borderRadius: 15,
+    backgroundColor: colors.white,
     shadowColor: "#000",
     shadowOffset:{
       width: 2,

@@ -1,10 +1,11 @@
-import { StyleSheet, FlatList, View, Text, Pressable, useWindowDimensions } from "react-native";
+import { StyleSheet, FlatList, View, Text, Pressable, useWindowDimensions, Image } from "react-native";
 import React from "react";
 import { colors } from "../Global/Colors";
 import CartItem from "../Components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { usePostCartMutation } from "../Services/shopServices";
-import { clearCart } from "../Features/Cart/cartSlice";
+import { clearCart, setIsCheckout } from "../Features/Cart/cartSlice";
+import AddButton from "../Components/AddButton";
 
 const Cart = ({ navigation }) => {
 
@@ -15,9 +16,9 @@ const Cart = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const onConfirm = () => {
-    triggerPostCart({allCart, total, user: localId, updatedAt, orderId}),
-    navigation.navigate('Order')
-    
+    triggerPostCart({allCart, total, user: localId, updatedAt, orderId});
+    dispatch(setIsCheckout(true));
+    navigation.navigate('Order');
   }
   
   const onClearCart = () => {
@@ -25,6 +26,8 @@ const Cart = ({ navigation }) => {
   }
 
   return (
+    <>
+    { allCart.length !== 0 ? (
     <View style={styles.container}>
       <FlatList
         data={allCart}
@@ -34,12 +37,9 @@ const Cart = ({ navigation }) => {
         }}
         showsVerticalScrollIndicator={false}
       />
-      { allCart.length !== 0 ?
-        <Pressable style={styles.buttonCancel} onPress={() => onClearCart()}>
-          <Text style={styles.buttonCartText}>Clear</Text>
-        </Pressable>
-        : null
-      }
+      <Pressable style={styles.buttonCancel} onPress={() => onClearCart()}>
+        <Text style={styles.buttonCartText}>Clear</Text>
+      </Pressable>
       <View style={styles.totalContainer}>
         <View style={styles.bloqueTexto}>
           <Text style={styles.texto}>Selected Items</Text>
@@ -47,20 +47,32 @@ const Cart = ({ navigation }) => {
         </View>
         <View style={styles.bloqueTexto}>
           <Text style={styles.texto}>Shipping Fee</Text>
-          <Text style={styles.price}>${total}</Text>
+          <Text style={styles.price}>$0</Text>
         </View>
         <View style={styles.line}/>
         <View style={styles.bloqueTexto}>
           <Text style={styles.textoSubtotal}>Subtotal</Text>
-          <Text style={styles.priceSubtotal}>${total}</Text>
+          <Text style={styles.priceSubtotal}>$0</Text>
         </View>
         <View style={styles.buttonCartContainer}>
-          <Pressable style={width > 350 ? styles.buttonCart : styles.buttonCartSM} onPress={onConfirm}>
+          <Pressable style={width > 350 ? styles.buttonCart : styles.buttonCartSM} onPress={(onConfirm)}>
             <Text style={styles.buttonCartText}>Checkout</Text>
           </Pressable>
         </View>
       </View>
     </View>
+    ) : 
+    <View style={styles.container}>
+      <Image style={styles.image} source={require("../Assets/img/EmptyCart.png")}/>
+      <Text style={styles.title}>Your Cart Is Empty</Text> 
+      <Text style={styles.text}>Looks like you haven´t added anything to your cart yet.</Text>
+      <AddButton
+        title="Go Back"
+        onPress={() => navigation.goBack()}
+      />
+    </View> 
+    }
+    </>
   );
 };
 
@@ -70,6 +82,27 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     alignItems: 'center',
+  },
+  image: {
+    marginTop: 80,
+    width: 400,
+    height: 250,
+    resizeMode: 'cover',
+    marginBottom: 40,
+  },
+  title: {
+    fontSize: 36,
+    fontFamily: 'SofiaExtraBold',
+    letterSpacing: 1
+  },
+  text: {
+    fontSize: 20,
+    fontFamily: 'SofiaBold',
+    color: 'grey',
+    letterSpacing: 0.5,
+    marginBottom: 30,
+    width: 250,
+    textAlign: 'center'
   },
   totalContainer: {
     backgroundColor: colors.primary,

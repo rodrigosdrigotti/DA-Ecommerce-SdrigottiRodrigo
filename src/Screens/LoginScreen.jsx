@@ -80,13 +80,11 @@ const LoginScreen = ({navigation}) => {
                 <InputForm 
                     label={"Email"}
                     onChange={(email) => setEmail(email)}
-                    /* error={errorEmail} */
                     icon={'mail'}
                 />
                 <InputForm 
                     label={"Password"}
                     onChange={(password)=> setPassword(password)}
-                    /* error={errorPassword} */
                     isSecure={true}
                     icon={'lock'}
                 />

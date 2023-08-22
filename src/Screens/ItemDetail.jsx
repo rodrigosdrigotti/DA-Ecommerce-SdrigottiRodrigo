@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Image, Pressable, Dimensions, FlatList } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image, Pressable, Dimensions, FlatList, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Toast, { BaseToast } from 'react-native-toast-message';
@@ -46,7 +46,7 @@ const ItemDetail = () => {
     success: (props) => (
       <BaseToast
         {...props}
-        style={{ borderLeftColor: colors.secondary }}
+        style={{ borderLeftColor: colors.secondary, width: SCREEN_WIDTH * .9 }}
         contentContainerStyle={{ paddingHorizontal: 15 }}
         text1Style={{
           fontSize: 15,
@@ -68,7 +68,7 @@ const ItemDetail = () => {
   }
 
   return (
-    <>
+    <ScrollView>
       {product ? (
         <View style={styles.productContainer}>
             <FlatList 
@@ -87,7 +87,6 @@ const ItemDetail = () => {
               pagingEnabled
               style={{width: SCREEN_WIDTH, height: ITEM_HEIGHT}}
               showsHorizontalScrollIndicator={false}
-              
             />
             <View style={styles.pagination}>
                 {product.images.map((item, index) => {
@@ -140,7 +139,7 @@ const ItemDetail = () => {
             <Toast config={toastConfig} />
         </View>
       ) : null}
-    </>
+    </ScrollView>
   );
 };
 
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
   productContainer: {
     alignContent: 'center',
     justifyContent: 'center',
-    marginBottom: 50,
+    marginBottom: 50
   },
   imageContent: {
     justifyContent: 'center',
