@@ -22,6 +22,11 @@
 
 "SB Entrenamientos" es un proyecto creado para la cursada REACT NATIVE de CODERHOUSE. Se trata de una aplicación Ecommerce donde podes comprar indumentaria o equipamiento para poder hacer calistenia en tu casa o donde quieras. 
 
+![Alt text](src/Assets/img/screen-signup.png)
+![Alt text](src/Assets/img/screen-categorias.png)
+![Alt text](src/Assets/img/screen-item.png)
+![Alt text](src/Assets/img/screen-detail.png)
+
 ## 🛠 Construido con <a name="construido-con"></a>
 
 Lista de Frameworks / Libraries que vas a necesitar
