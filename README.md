@@ -7,7 +7,7 @@
 - [📗 Tabla de contenidos ](#-table-of-contents)
 - [📖 Sobre el Proyecto ](#-sobre-el-proyecto-)
   - 🛠 [Construido con](#construido-con)
-    - [Funcionalidades del Proyecto ](#funcionalidades-del-proyecto-)
+    - [Funcionalidades del Proyecto](#funcionalidades-del-proyecto-)
   - [🚀 Demo ](#-demo-)
   - 💻 [Comenzando](#comenzando)
     - [Pre-requisitos](#pre-requisitos)
@@ -36,7 +36,7 @@ Lista de Frameworks / Libraries que vas a necesitar
 * [![Android][Android.com]][Android-url]
 * [![iOS][iOS.com]][iOS-url]
 
-## Funcionalidades del proyecto
+## Funcionalidades del Proyecto
 
 - `Funcionalidad 1`: Sistema de Registro y Login en Firebase
 - `Funcionalidad 2`: Visualización de productos por categorías
