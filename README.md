@@ -7,7 +7,7 @@
 - [📗 Tabla de contenidos ](#-table-of-contents)
 - [📖 Sobre el Proyecto ](#-sobre-el-proyecto-)
   - 🛠 [Construido con](#construido-con)
-    - [Funcionalidades del Proyecto](#funcionalidades-del-proyecto-)
+    - [Funcionalidades del Proyecto](#funcionalidades-del-proyecto)
   - [🚀 Demo ](#-demo-)
   - 💻 [Comenzando](#comenzando)
     - [Pre-requisitos](#pre-requisitos)
