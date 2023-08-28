@@ -13,7 +13,6 @@ export default SubmitButton;
 
 const styles = StyleSheet.create({
     button: {
-        //marginTop: 20,
         borderColor: 'rgba(255,255,255,0.5)',
         borderWidth: 1.5,
         borderRadius: 40,

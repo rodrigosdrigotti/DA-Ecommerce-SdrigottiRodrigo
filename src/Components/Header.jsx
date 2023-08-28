@@ -1,13 +1,24 @@
 import { StyleSheet, Text, View, Pressable, useWindowDimensions } from "react-native";
-import React from "react";
-import { colors } from "../Global/Colors";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faBarsStaggered, faArrowLeft, faCartShopping, faEllipsisVertical, faHeart, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faBarsStaggered, faArrowLeft, faCartShopping, faEllipsisVertical, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+
+import { colors } from "../Global/Colors";
 import { logOut } from "../Features/User/userSlice";
 import { deleteSession } from "../SQLite";
 
 const Header = ({ route, navigation }) => {
+
+  //Dark Mode Theme
+  const theme = useSelector(state => state.themeReducer.mode);
+  const [themeMode, setThemeMode] = useState(theme);
+
+  useEffect(() => {
+    setThemeMode(theme);
+  }, [theme])
+  /*  */
+
   const { width } = useWindowDimensions();
   const ruta = route.name;
   const dispatch = useDispatch();
@@ -32,51 +43,57 @@ const Header = ({ route, navigation }) => {
         ruta === "Signup" || ruta === "Login" ? (
         <View style={styles.containerSignup} />
         ) : ruta === "SB Entrenamientos" ? (
-        <View style={styles.containerHeader}>
+        <View style={themeMode === 'light' ? styles.containerHeaderLight : styles.containerHeaderDark}>
           <FontAwesomeIcon
             icon={faBarsStaggered}
             size={width > 350 ? 26 : 22}
-            color={colors.secondary}
+            color={themeMode === 'light' ? colors.secondary : colors.white}
           />
-          <Text style={width > 350 ? styles.text : styles.textSM}>{route.name}</Text>
+          <Text style={(width > 350 ? styles.textLight : styles.textSMLight) 
+            && (themeMode === 'light' ? styles.textLight : styles.textDark) 
+            || (themeMode === 'light' ? styles.textSMLight : styles.textSMDark)}>{route.name}</Text>
           <Pressable onPress={onSignout}>
             <FontAwesomeIcon
               icon={faRightFromBracket}
               size={width > 350 ? 32 : 28}
-              color={colors.secondary}
+              color={themeMode === 'light' ? colors.secondary : colors.white}
             />
           </Pressable>
         </View>
         ) : ruta === "Checkout" || ruta === "My Profile" || ruta === "Image Selector" 
         || ruta === "List Address" || ruta === "Location Selector" ? (
-        <View style={styles.containerHeader}>
+        <View style={themeMode === 'light' ? styles.containerHeaderLight : styles.containerHeaderDark}>
           <Pressable onPress={() => navigation.goBack()}>
             <FontAwesomeIcon
               icon={faArrowLeft}
               size={width > 350 ? 26 : 22}
-              color={colors.secondary}
+              color={themeMode === 'light' ? colors.secondary : colors.white}
             />
           </Pressable>
-          <Text style={width > 350 ? styles.text : styles.textSM}>{route.name}</Text>
+          <Text style={(width > 350 ? styles.textLight : styles.textSMLight) 
+            && (themeMode === 'light' ? styles.textLight : styles.textDark) 
+            || (themeMode === 'light' ? styles.textSMLight : styles.textSMDark)}>{route.name}</Text>
           <FontAwesomeIcon
             icon={faEllipsisVertical}
             size={width > 350 ? 26 : 22}
-            color={colors.secondary}
+            color={themeMode === 'light' ? colors.secondary : colors.white}
           />
         </View>
         ) : (
-          <View style={styles.containerHeader}>
+          <View style={themeMode === 'light' ? styles.containerHeaderLight : styles.containerHeaderDark}>
             <Pressable onPress={() => navigation.goBack()}>
-              <FontAwesomeIcon icon={faArrowLeft} size={width > 350 ? 26 : 22} color={colors.secondary}
+              <FontAwesomeIcon icon={faArrowLeft} size={width > 350 ? 26 : 22} color={themeMode === 'light' ? colors.secondary : colors.white}
               />
             </Pressable>
-            <Text style={width > 350 ? styles.text : styles.textSM}>{route.name}</Text>
+            <Text style={(width > 350 ? styles.textLight : styles.textSMLight) 
+            && (themeMode === 'light' ? styles.textLight : styles.textDark) 
+            || (themeMode === 'light' ? styles.textSMLight : styles.textSMDark)}>{route.name}</Text>
             <Pressable onPress={() => navigation.navigate("Cart")}>
               <FontAwesomeIcon
                 style={styles.carritoIcon}
                 icon={faCartShopping}
                 size={width > 350 ? 26 : 22}
-                color={colors.secondary}
+                color={themeMode === 'light' ? colors.secondary : colors.white}
               />
               { totalQuantity !== null ?
                 <View style={styles.containerNumeroCarrito}>
@@ -101,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  containerHeader: {
+  containerHeaderLight: {
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
@@ -110,24 +127,37 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingTop: 50,
   },
-  containerHeaderTwo: {
+  containerHeaderDark: {
+    justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 30,
     paddingVertical: 30,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.dark,
     paddingTop: 50,
   },
-  text: {
+  textLight: {
     fontSize: 30,
     fontFamily: "SofiaBold",
     color: colors.secondary,
     textTransform: "uppercase",
   },
-  textSM: {
+  textDark: {
+    fontSize: 30,
+    fontFamily: "SofiaBold",
+    color: colors.white,
+    textTransform: "uppercase",
+  },
+  textSMLight: {
     fontSize: 24,
     fontFamily: "SofiaBold",
     color: colors.secondary,
+    textTransform: "uppercase",
+  },
+  textSMDark: {
+    fontSize: 24,
+    fontFamily: "SofiaBold",
+    color: colors.white,
     textTransform: "uppercase",
   },
   imageLogo: {

@@ -1,15 +1,14 @@
-import { FlatList, StyleSheet, View, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { FlatList, StyleSheet, View, ActivityIndicator } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+
 import ProductItem from '../Components/ProductItem'
 import Search from '../Components/Search'
-import { useDispatch, useSelector } from 'react-redux'
-import { useGetProductsByCategoryQuery, useGetProductsQuery } from '../Services/shopServices'
 import { colors } from '../Global/Colors'
 import { setAllProducts } from '../Features/Shop/shopSlice'
+import { useGetProductsByCategoryQuery, useGetProductsQuery } from '../Services/shopServices'
 
-const ItemListCategory = ({
-  navigation
-}) => {
+const ItemListCategory = ({ navigation }) => {
 
   const dispatch = useDispatch(); 
   const { data: allProducts } = useGetProductsQuery();
@@ -29,8 +28,8 @@ const ItemListCategory = ({
     }
   }, [productsSelected, keyword, isLoading, allProducts])
 
+  //Search Bar Data Evaluation
   const onSearch = (input) => {
-    
       const expression = /^[a-zA-Z0-9\ ]*$/
       const evaluation = expression.test(input)
 
@@ -44,7 +43,7 @@ const ItemListCategory = ({
 
   return (
     <>
-    {allProducts ?
+    { allProducts ?
     <View style={styles.container}>
         <Search
           onSearch={onSearch}
@@ -63,7 +62,7 @@ const ItemListCategory = ({
         <ActivityIndicator animating={true} style={styles.loader} size="large" color={colors.secondary} />
         }
     </View>
-    :null}
+    :null }
     </>
   )
 }

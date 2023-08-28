@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-//import Products from "../../Data/products.json";
 
 export const  shopSlice = createSlice({
     name: "Shop",

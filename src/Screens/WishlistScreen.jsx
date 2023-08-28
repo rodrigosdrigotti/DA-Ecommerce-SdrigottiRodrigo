@@ -1,16 +1,28 @@
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AddButton from "../Components/AddButton";
+import { useSelector } from "react-redux";
+import { colors } from "../Global/Colors";
 
 const {width} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
 
 const NotificationScreen = ({navigation}) => {
+
+  //Dark Mode Theme
+  const theme = useSelector(state => state.themeReducer.mode);
+  const [themeMode, setThemeMode] = useState(theme);
+
+  useEffect(() => {
+    setThemeMode(theme);
+  }, [theme])
+  /*  */
+
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require("../Assets/img/State404.png")}/>
-      <Text style={styles.title}>Under Maintenance</Text>
-      <Text style={styles.text}>This service is not available yet. Plase try later again</Text>
+      <Image style={styles.image} source={themeMode === 'light' ? require("../Assets/img/State404.png") : require("../Assets/img/State404Dark.png")}/>
+      <Text style={themeMode === 'light' ? styles.titleLight : styles.titleDark}>Under Maintenance</Text>
+      <Text style={themeMode === 'light' ? styles.textLight : styles.textDark}>This service is not available yet. Plase try later again</Text>
       <AddButton title="Go Back" onPress={() => navigation.goBack()} />
     </View>
   );
@@ -26,20 +38,35 @@ const styles = StyleSheet.create({
   },
   image: {
     marginTop: 80,
-    width: SCREEN_WIDTH * .7,
+    width: SCREEN_WIDTH * .8,
     height: 300,
     resizeMode: "cover",
     marginBottom: 40,
   },
-  title: {
+  titleLight: {
     fontSize: 36,
     fontFamily: "SofiaExtraBold",
     letterSpacing: 1,
   },
-  text: {
+  textLight: {
     fontSize: 20,
     fontFamily: "SofiaBold",
     color: "grey",
+    letterSpacing: 0.5,
+    marginBottom: 30,
+    width: 230,
+    textAlign: 'center',
+  },
+  titleDark: {
+    fontSize: 36,
+    fontFamily: "SofiaExtraBold",
+    letterSpacing: 1,
+    color: colors.white,
+  },
+  textDark: {
+    fontSize: 20,
+    fontFamily: "SofiaBold",
+    color: colors.white,
     letterSpacing: 0.5,
     marginBottom: 30,
     width: 230,

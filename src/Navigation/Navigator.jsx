@@ -1,20 +1,19 @@
-import React, { useEffect, useRef } from "react";
-import { StyleSheet, StatusBar, Platform, View, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, StatusBar, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import * as Animatable from 'react-native-animatable';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getSession } from "../SQLite";
 import { colors } from "../Global/Colors";
+import { setUser } from "../Features/User/userSlice";
 import MyProfileStack from "./MyProfileStack";
 import ShopStack from "./ShopStack";
 import CartStack from "./CartStack";
 import OrderStack from "./OrderStack";
 import AuthStack from "./AuthStack";
-import { setUser } from "../Features/User/userSlice";
+import TabButton from "../Components/TabButton";
 
 const TabsArray = [
     { route: 'Shop', label: 'Shop', activeIcon: 'grid', inactiveIcon: 'grid-outline', size: 24, component: ShopStack },
@@ -25,39 +24,16 @@ const TabsArray = [
 
 const Tab = createBottomTabNavigator();
 
-const TabButton = ( props ) => {
-
-    const {item , onPress, accessibilityState} = props
-    const focused = accessibilityState.selected;
-    const viewRef = useRef(null);
+const Navigator = () => {
+    
+    //Dark Mode Theme
+    const theme = useSelector(state => state.themeReducer.mode);
+    const [themeMode, setThemeMode] = useState(theme);
 
     useEffect(() => {
-      if(focused) {
-        viewRef.current.animate({0: {scale: .5, rotate: '0deg'}, 1:{scale: 1.5, rotate: '360deg'}})
-      }
-      else {
-        viewRef.current.animate({0: {scale: 1.5, rotate: '360deg'}, 1:{scale: 1, rotate: '0deg'}})
-      }
-    }, [focused])
-    
-    return (
-        <View style={styles.demo}>
-            <TouchableOpacity 
-                onPress={onPress}
-                activeOpacity={1}
-            >
-                <Animatable.View
-                    ref={viewRef}
-                    duration={1000}
-                >
-                    <Ionicons name={focused ? item.activeIcon : item.inactiveIcon} size={item.size} color={focused ? colors.white : 'grey'} />
-                </Animatable.View>
-            </TouchableOpacity>
-        </View>
-    )
-}
-
-const Navigator = () => {
+        setThemeMode(theme);
+    }, [theme])
+    /* */
 
     const { email } = useSelector(state => state.userReducer.value);
     const dispatch = useDispatch();
@@ -72,11 +48,12 @@ const Navigator = () => {
                     dispatch(setUser(user))
                 }
             } catch (error) {
-                console.log('Error getting session');
+                //console.log('Error getting session');
                 //console.log(error.message);
             }
         })()
     }, [])
+
 
     return (
         <SafeAreaProvider style={styles.container}>
@@ -86,10 +63,10 @@ const Navigator = () => {
                 <Tab.Navigator
                     screenOptions={{
                     headerShown: false,
-                    tabBarStyle: styles.tabNavigator
+                    tabBarStyle: themeMode === 'light' ? styles.tabNavigatorLight : styles.tabNavigatorDark 
                 }}
                 >
-                {TabsArray.map((item, index) => {   
+                {   TabsArray.map((item, index) => {   
                     return(
                         <Tab.Screen 
                         key={index}
@@ -102,7 +79,7 @@ const Navigator = () => {
                         }}
                         />
                     )
-                    })}
+                })}
                 </Tab.Navigator>
                 : <AuthStack />
             } 
@@ -114,21 +91,23 @@ const Navigator = () => {
 export default Navigator;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.primary,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  },
-  tabNavigator: {
-    height: 90,
-    width: '100%',
-    backgroundColor: colors.secondary,
-    alignItems: 'center',
-    justifyContent: 'center',
-},
-demo: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 32.5,
-}
+    container: {
+        flex: 1,
+        backgroundColor: colors.primary,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    },
+    tabNavigatorLight: {
+        height: 90,
+        width: '100%',
+        backgroundColor: colors.secondary,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    tabNavigatorDark: {
+        height: 90,
+        width: '100%',
+        backgroundColor: colors.dark,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 });

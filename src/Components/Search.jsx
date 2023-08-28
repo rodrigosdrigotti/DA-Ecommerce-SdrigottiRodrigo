@@ -1,6 +1,8 @@
 import { Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesome } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+
 import { colors } from '../Global/Colors';
 
 const Search = ({
@@ -8,8 +10,16 @@ const Search = ({
     error = "",
     }) => {
     
-    const { width } = useWindowDimensions();
+    //Dark Mode Theme
+    const theme = useSelector(state => state.themeReducer.mode);
+    const [themeMode, setThemeMode] = useState(theme);
 
+    useEffect(() => {
+        setThemeMode(theme);
+    }, [theme])
+    /*  */
+
+    const { width } = useWindowDimensions();
     const [keyword, setKeyword] = useState("")
 
     const Busqueda = (text) => {
@@ -20,8 +30,12 @@ const Search = ({
     return (
         <>
         <View style ={  width > 350 ? styles.container : styles.containerSM }>
-            <TextInput style ={ width > 350 ? styles.input : styles.inputSM } 
+            <TextInput style ={ (width > 350 ? styles.inputLight : styles.inputSMLight)
+                                && (themeMode === 'light' ? styles.inputLight : styles.inputDark)
+                                || (themeMode === 'light' ? styles.inputSMLight : styles.inputSMDark)
+                                } 
                 placeholder='Search...'
+                placeholderTextColor={themeMode === 'light' ? colors.grey : colors.secondary}
                 value={keyword}
                 onChangeText={(text) => Busqueda(text)}        
             />
@@ -33,7 +47,7 @@ const Search = ({
             <Text>
                 {error}
             </Text>
-            : null}
+        : null }
         </>
     )
 }
@@ -57,7 +71,7 @@ const styles = StyleSheet.create({
         gap: 18,
         marginVertical: 5,
     },
-    input: {
+    inputLight: {
         width: 275,
         padding: 8,
         fontSize: 18,
@@ -67,12 +81,32 @@ const styles = StyleSheet.create({
         paddingLeft: 45,
         position: 'relative'
     },
-    inputSM: {
+    inputDark: {
+        width: 275,
+        padding: 8,
+        fontSize: 18,
+        fontFamily: 'Sofia',
+        backgroundColor: colors.grey,
+        borderRadius: 10,
+        paddingLeft: 45,
+        position: 'relative'
+    },
+    inputSMLight: {
         width: 225,
         padding: 8,
         fontSize: 18,
         fontFamily: 'Sofia',
         backgroundColor: colors.white,
+        borderRadius: 10,
+        paddingLeft: 45,
+        position: 'relative'
+    },
+    inputSMDark: {
+        width: 225,
+        padding: 8,
+        fontSize: 18,
+        fontFamily: 'Sofia',
+        backgroundColor: colors.grey,
         borderRadius: 10,
         paddingLeft: 45,
         position: 'relative'

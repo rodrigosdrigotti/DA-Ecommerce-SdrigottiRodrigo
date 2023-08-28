@@ -1,19 +1,28 @@
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
-import React from 'react';
-import CategoryItem from '../Components/CategoryItem';
-import { colors } from '../Global/Colors';
-import { useGetCategoriesQuery } from '../Services/shopServices';
+import { useSelector } from 'react-redux';
 
-const Home = ({
-  navigation
-}) => {
+import CategoryItem from '../Components/CategoryItem';
+import { useGetCategoriesQuery } from '../Services/shopServices';
+import { colors } from '../Global/Colors';
+
+const Home = ({ navigation }) => {
+  
+  //Dark Mode Theme
+  const theme = useSelector(state => state.themeReducer.mode);
+  const [themeMode, setThemeMode] = useState(theme);
+
+  useEffect(() => {
+    setThemeMode(theme);
+  }, [theme])
+  /*  */
 
   const { data: categories, isLoading, isError } = useGetCategoriesQuery();
-  
+
   return (
     <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Categorias</Text>
+          <Text style={themeMode === 'light' ? styles.titleLight : styles.titleDark}>Categorias</Text>
         </View>
         { !isLoading ?
           <FlatList
@@ -49,10 +58,15 @@ const styles = StyleSheet.create({
       paddingLeft: 40,
       alignSelf: 'flex-start',
     },  
-    title: {
+    titleLight: {
       fontSize: 26,
       fontFamily: 'SofiaBold',
       color: colors.secondary,
+    },
+    titleDark: {
+      fontSize: 26,
+      fontFamily: 'SofiaBold',
+      color: colors.white,
     },
     flat: {
       paddingTop: 20,

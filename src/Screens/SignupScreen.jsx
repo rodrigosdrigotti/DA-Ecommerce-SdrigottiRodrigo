@@ -1,11 +1,12 @@
 import { Image, ImageBackground, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
 import InputForm from "../Components/InputForm";
 import SubmitButton from "../Components/SubmitButton";
 import { colors } from "../Global/Colors";
-import { useSignUpMutation } from "../Services/authServices";
-import { useDispatch } from "react-redux";
 import { setUser } from "../Features/User/userSlice";
+import { useSignUpMutation } from "../Services/authServices";
 import { isAtLeastSixCharacters, isValidEmail } from "../Validations/auth";
 
 const SignupScreen = ({ navigation }) => {
@@ -63,8 +64,7 @@ const SignupScreen = ({ navigation }) => {
             else setErrorConfirmPassword('')
 
         } catch (err) {
-            console.log("No es posible el Registro");
-            //console.log(err.message);
+            setSignUp("Error!! Cierre la Aplicación e Intente Nuevamente");
         }
     };
 

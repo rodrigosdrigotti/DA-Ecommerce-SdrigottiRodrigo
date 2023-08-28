@@ -1,9 +1,25 @@
 import { StyleSheet, Text, View, Modal, Pressable } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+
 import { colors } from '../Global/Colors';
+import { clearOrder } from '../Features/Order/orderSlice';
 
 const ModalAlert = ({ modalVisible, setModalVisible, mensaje }) => {
-  return (
+
+    //Dark Mode Theme
+    const theme = useSelector(state => state.themeReducer.mode);
+    const [themeMode, setThemeMode] = useState(theme);
+
+    useEffect(() => {
+        setThemeMode(theme);
+    }, [theme])
+    /*  */
+    
+    const dispatch = useDispatch();
+    
+    return (
+ 
     <Modal
         animationType="slide"
         transparent={true}
@@ -14,12 +30,12 @@ const ModalAlert = ({ modalVisible, setModalVisible, mensaje }) => {
     >
         <View style={styles.backModal}>
             <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text style={styles.modalText}>{mensaje}</Text>
+                <View style={themeMode === 'light' ? styles.modalViewLight : styles.modalViewDark}>
+                    <Text style={themeMode === 'light' ? styles.modalTextLight : styles.modalTextDark}>{mensaje}</Text>
                     <View style={styles.buttonContainer}>
                         <Pressable
-                            style={[styles.button, styles.buttonDone]}
-                            onPress={() => setModalVisible(!modalVisible)}
+                            style={[styles.button, themeMode === 'light' ? styles.buttonDoneLight : styles.buttonDoneDark]}
+                            onPress={() => {dispatch(clearOrder())}}
                         >
                             <Text style={styles.textStyle}>OK</Text>
                         </Pressable>
@@ -40,9 +56,24 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 22,
     },
-    modalView: {
+    modalViewLight: {
         margin: 20,
-        backgroundColor: "#EBEBEB",
+        backgroundColor: colors.primary,
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    modalViewDark: {
+        margin: 20,
+        backgroundColor: colors.greyDark,
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
@@ -66,19 +97,30 @@ const styles = StyleSheet.create({
         padding: 10,
         elevation: 2,
     },
-    buttonDone: {
+    buttonDoneLight: {
         backgroundColor: colors.secondary,
+    },
+    buttonDoneDark: {
+        backgroundColor: colors.orange,
     },
     textStyle: {
         color: "white",
         fontWeight: "bold",
         textAlign: "center",
     },
-    modalText: {
+    modalTextLight: {
         marginBottom: 20,
         textAlign: "center",
         fontSize: 16,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        color: colors.secondary,
+    },
+    modalTextDark: {
+        marginBottom: 20,
+        textAlign: "center",
+        fontSize: 16,
+        fontWeight: "bold",
+        color: colors.white,
     },
     backModal: {
         backgroundColor: 'rgba(0,0,0,0.7)',

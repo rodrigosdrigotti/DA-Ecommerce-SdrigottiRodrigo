@@ -1,21 +1,23 @@
 import { Image, ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native'
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import React from 'react'
+
 import InputForm from '../Components/InputForm'
 import SubmitButton from '../Components/SubmitButton'
 import { colors } from '../Global/Colors'
-import { useLoginMutation } from '../Services/authServices'
-import { useDispatch } from 'react-redux';
-import { isAtLeastSixCharacters, isValidEmail } from "../Validations/auth";
-import { useState, useEffect } from 'react';
 import { setUser } from '../Features/User/userSlice';
 import { insertSession } from "../SQLite";
+import { useLoginMutation } from '../Services/authServices'
+import { isAtLeastSixCharacters, isValidEmail } from "../Validations/auth";
 
 const LoginScreen = ({navigation}) => {
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorEmail, setErrorEmail] = useState('')
     const [errorPassword, setErrorPassword] = useState('')
-    const [errorSignIn, setSignIn] = useState("");
+    const [errorSignIn, setErrorSignIn] = useState("");
 
     const [triggerSignIn, resultSignIn] = useLoginMutation();
     const dispatch = useDispatch();
@@ -48,7 +50,7 @@ const LoginScreen = ({navigation}) => {
                         idToken: resultSignIn.data.idToken,
                         localId: resultSignIn.data.localId,
                     })
-
+                    //Seteamos el usuario en userSlice
                     dispatch(setUser({
                         email: resultSignIn.data.email,
                         idToken: resultSignIn.data.idToken,
@@ -63,11 +65,10 @@ const LoginScreen = ({navigation}) => {
                 if(resultSignIn.isError) {
                     let string = resultSignIn.error.data.error.message;
                     let result = string.replace (/_/g, " ");
-                    setSignIn(result)
+                    setErrorSignIn(result)
                 }
             } catch (error) {
-                console.log('No es posible el Inicio de Sesion')
-                //console.log(error.message);
+                setErrorSignIn("Error!! Cierre la Aplicación e Intente Nuevamente");
             }
         })()
     }, [resultSignIn])

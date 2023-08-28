@@ -42,15 +42,16 @@ Lista de Frameworks / Libraries que vas a necesitar
 
 ## Funcionalidades del Proyecto
 
-- `Funcionalidad 1`: Sistema de Registro y Login en Firebase
-- `Funcionalidad 2`: Visualización de productos por categorías
-- `Funcionalidad 3`: Menu para filtrar productos
-- `Funcionalidad 4`: Acceso a la descripción de cada producto
-- `Funcionalidad 5`: Carrito de compras
-- `Funcionalidad 6`: Agregar, eliminar productos, vaciar carrito.
-- `Funcionalidad 7`: Generación de orden de compra
+- `Funcionalidad 1`: Sistema de Registro y Login en Firebase.
+- `Funcionalidad 2`: Visualización de productos por categorías.
+- `Funcionalidad 3`: Menu para filtrar productos.
+- `Funcionalidad 4`: Acceso a la descripción de cada producto con slide de imágenes.
+- `Funcionalidad 5`: Carrito de compras.
+- `Funcionalidad 6`: Agregar productos según stock, eliminar productos, vaciar carrito.
+- `Funcionalidad 7`: Generación de orden de compra.
 - `Funcionalidad 8`: Sección de Perfil de usuario con agregado de imagen y ubicación con mapas.
-- `Funcionalidad 9`: Cargar productos desde firebase
+- `Funcionalidad 9`: Cargar productos desde firebase.
+- `Funcionalidad 10`: Modo Dark en el profile del usuario.
 
 <p align="right">(<a href="#readme-top"> Ir arriba </a>)</p>
 

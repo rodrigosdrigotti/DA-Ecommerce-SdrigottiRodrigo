@@ -6,7 +6,7 @@ import { dropTableSessions, init } from './src/SQLite';
 import { useEffect } from 'react';
 
 export default function App() {
-   
+
   useEffect(()=> {
     init()
       .then((result)=> {
@@ -28,6 +28,7 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+
 
   return (
       <Provider store={store}>

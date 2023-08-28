@@ -10,7 +10,6 @@ export const cartSlice = createSlice({
             total: null,
             totalQuantity: null,
             items: [],
-            isCheckout: false
         }
     },
     reducers: {
@@ -89,12 +88,9 @@ export const cartSlice = createSlice({
                 items: []
             }
         },
-        setIsCheckout: (state, action) => {
-            state.value.isCheckout = action.payload;
-        },
     }
 })
 
-export const {addCartItem, removeCartItem, clearCart, setIsCheckout} = cartSlice.actions
+export const {addCartItem, removeCartItem, clearCart} = cartSlice.actions
 
 export default cartSlice.reducer

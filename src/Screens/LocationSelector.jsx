@@ -11,6 +11,15 @@ import { google_maps_api_key } from "../Database/firebaseConfig";
 
 const LocationSelector = ({ navigation }) => {
 
+    //Dark Mode Theme
+    const theme = useSelector(state => state.themeReducer.mode);
+    const [themeMode, setThemeMode] = useState(theme);
+
+    useEffect(() => {
+        setThemeMode(theme);
+    }, [theme])
+    /*  */
+
     const [location, setLocation] = useState({ latitude: "", longitude: "" });
     const [error, setError] = useState("");
 
@@ -80,16 +89,16 @@ const LocationSelector = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>My Address</Text>
+            <Text style={themeMode === 'light' ? styles.textLight : styles.textDark}>My Address</Text>
             {/* Flatlist con las directions */}
             { location ? (
                 <>
-                    <Text style={styles.text}>
+                    <Text style={themeMode === 'light' ? styles.textLight : styles.textDark}>
                         Lat: {location.latitude}, Long: {location.longitude}.
                     </Text>
                     <MapPreview location={location} />
-                    <Text style={styles.text}>Address</Text>
-                    <Text style={styles.address}>{address}</Text>
+                    <Text style={themeMode === 'light' ? styles.textLight : styles.textDark}>Address</Text>
+                    <Text style={themeMode === 'light' ? styles.addressLight : styles.addressDark}>{address}</Text>
                     <AddButton
                         onPress={onConfirmAddress}
                         title="Confirm address"
@@ -114,10 +123,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
     },
-    text: {
+    textLight: {
         paddingTop: 20,
         fontFamily: 'SofiaBold',
         fontSize: 18,
+        color: colors.secondary,
+    },
+    textDark: {
+        paddingTop: 20,
+        fontFamily: 'SofiaBold',
+        fontSize: 18,
+        color: colors.white,
     },
     noLocationContainer: {
         width: 200,
@@ -128,11 +144,20 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    address: {
+    addressLight: {
         paddingHorizontal: 40,
         fontFamily: "SofiaExtraBold",
         fontSize: 16,
         textAlign: 'center',
         paddingTop: 10,
+        color: colors.secondary,
+    },
+    addressDark: {
+        paddingHorizontal: 40,
+        fontFamily: "SofiaExtraBold",
+        fontSize: 16,
+        textAlign: 'center',
+        paddingTop: 10,
+        color: colors.white,
     },
 });

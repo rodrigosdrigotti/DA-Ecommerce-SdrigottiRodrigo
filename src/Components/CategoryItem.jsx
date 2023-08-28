@@ -1,9 +1,10 @@
 import { Pressable, StyleSheet, Text, Image, View, useWindowDimensions } from 'react-native';
-import React from 'react';
-import Card from './Card';
 import { useDispatch } from 'react-redux';
-import { setCategorySelected  } from '../Features/Shop/shopSlice';
+import React from 'react';
+
+import Card from './Card';
 import { colors } from '../Global/Colors';
+import { setCategorySelected  } from '../Features/Shop/shopSlice';
 
 const CategoryItem = ({ item, navigation }) => {
 
@@ -16,9 +17,7 @@ const CategoryItem = ({ item, navigation }) => {
   }
 
   return (
-    <Pressable
-      onPress={onSelectCategory}
-    >
+    <Pressable onPress={onSelectCategory}>
       <Card additionalStyle={styles.additionalStylesCard}>
         <View style={styles.imageContainer}>
           <Image 

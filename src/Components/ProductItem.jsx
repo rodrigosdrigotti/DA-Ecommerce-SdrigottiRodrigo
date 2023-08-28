@@ -1,12 +1,13 @@
-import { Image, StyleSheet, View, Text, Pressable, useWindowDimensions } from 'react-native';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { Image, StyleSheet, View, Text, Pressable, useWindowDimensions } from 'react-native';
+
 import Card from './Card';
 import { colors } from '../Global/Colors';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { useDispatch } from 'react-redux';
-import { setAllProducts, setIdSelected  } from '../Features/Shop/shopSlice';
+import { setIdSelected  } from '../Features/Shop/shopSlice';
 
-const ProductItem = ({item, navigation}) => {
+const ProductItem = ({ item, navigation }) => {
 
   const { width } = useWindowDimensions();
 

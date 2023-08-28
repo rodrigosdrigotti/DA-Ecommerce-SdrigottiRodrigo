@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, View, StyleSheet, Text } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import AddButton from "../Components/AddButton";
@@ -9,6 +9,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveImage } from "../Features/User/userSlice";
 
 const ImageSelector = ({ navigation }) => {
+
+    //Dark Mode Theme
+    const theme = useSelector(state => state.themeReducer.mode);
+    const [themeMode, setThemeMode] = useState(theme);
+
+    useEffect(() => {
+        setThemeMode(theme);
+    }, [theme])
+    /*  */
+
     const [image, setImage] = useState(null);
 
     const [triggerSaveImage, resultSaveImage] = usePostProfileImageMutation();
@@ -74,8 +84,8 @@ const ImageSelector = ({ navigation }) => {
                 </>
             ) : (
                 <>
-                    <View style={styles.noPhotoContainer}>
-                        <Text>No photo to show...</Text>
+                    <View style={themeMode === 'light' ? styles.noPhotoContainerLight : styles.noPhotoContainerDark}>
+                        <Text style={{color: themeMode === 'light' ? colors.secondary : colors.white}}>No photo to show...</Text>
                     </View>
                     <AddButton title="Take a photo" onPress={pickImage} />
                 </>
@@ -98,11 +108,20 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
     },
-    noPhotoContainer: {
+    noPhotoContainerLight: {
         width: 200,
         height: 200,
-        borderWidth: 2,
-        borderColor: colors.red,
+        borderWidth: 5,
+        borderColor: colors.secondary,
+        padding: 10,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    noPhotoContainerDark: {
+        width: 200,
+        height: 200,
+        borderWidth: 5,
+        borderColor: colors.orange,
         padding: 10,
         justifyContent: "center",
         alignItems: "center",

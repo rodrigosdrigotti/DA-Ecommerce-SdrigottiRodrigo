@@ -1,12 +1,14 @@
 import React from "react";
-import Header from '../Components/Header';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import Header from '../Components/Header';
 import SignupScreen from "../Screens/SignupScreen";
 import LoginScreen from "../Screens/LoginScreen";
 
 const Stack = createNativeStackNavigator()
 
 const AuthStack = () => {
+
     return (
         <Stack.Navigator
             initialRouteName="Signup"

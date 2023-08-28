@@ -1,45 +1,73 @@
 import { StyleSheet, Text, View, Pressable, useWindowDimensions, FlatList } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import Card from "./Card";
+import ModalAlert from "./Modal";
 import { colors } from "../Global/Colors";
 
 const OrderItem = ({ order, total, updatedAt}) => {
-  /* const totalQ = order.allCart.reduce(
-    (acc, currentItem) => (acc += currentItem.price * currentItem.quantity),
-    0
-  ); */
+
+  //Dark Mode Theme
+  const theme = useSelector(state => state.themeReducer.mode);
+  const [themeMode, setThemeMode] = useState(theme);
+
+  useEffect(() => {
+    setThemeMode(theme);
+  }, [theme])
+  /*  */
 
   const { width } = useWindowDimensions();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [mensaje, setMensaje] = useState("");
+
+  const onPressModal = () => {
+    setModalVisible(!modalVisible);
+    setMensaje("Próximamente Módulo de Pago")
+  }
 
   return (
-    <Card additionalStyle={ width > 350 ? styles.additionalStylesCard : styles.additionalStylesCardSM } >
+    <Card
+        additionalStyle={(width > 350 ? styles.additionalStylesCardLight : styles.additionalStylesCardSMLight)
+                        && (themeMode === 'light' ? styles.additionalStylesCardLight : styles.additionalStylesCardDark)
+                        || (themeMode === 'light' ? styles.additionalStylesCardSMLight : styles.additionalStylesCardSMDark)
+                        }
+      >   
         <View style={width > 350 ? styles.infoContainer : styles.infoContainerSM}>
             <View style={styles.bloqueTexto}>
-                <Text style={styles.textCategory}>Fecha</Text>
-                <Text style={styles.textCategory}>{(updatedAt).split(',')[0]}</Text>
+                <Text style={themeMode === 'light' ? styles.textCategoryLight : styles.textCategoryDark}>Fecha</Text>
+                <Text style={themeMode === 'light' ? styles.textCategoryLight : styles.textCategoryDark}>{updatedAt}</Text>
             </View>
             <View style={styles.bloqueTexto}>
               <FlatList
                 data={order}
                 keyExtractor={(cartItem) => cartItem.id}
                 renderItem={({ item }) => {
-                  return <Text style={styles.textCategory}>{item.title}   {'->'}   Cant: {item.quantity}</Text>;
+                  return <Text style={themeMode === 'light' ? styles.textCategoryLight : styles.textCategoryDark}>{item.title}   {'->'}   Cant: {item.quantity}</Text>;
                 }}
                 showsVerticalScrollIndicator={false}
               />
             </View>
             <View style={styles.bloqueTexto}>
-                <Text style={styles.textoSubtotal}>Total</Text>
+                <Text style={themeMode === 'light' ? styles.textoSubtotalLight : styles.textoSubtotalDark}>Total</Text>
                 <Text style={styles.priceSubtotal}>${total}</Text>
             </View>
             <View style={styles.buttonCartContainer}>
                 <Pressable
-                style={width > 350 ? styles.buttonCart : styles.buttonCartSM}
-                onPress={() => {}}
+                style={(width > 350 ? styles.buttonCartLight : styles.buttonCartSMLight)
+                      && (themeMode === 'light' ? styles.buttonCartLight : styles.buttonCartDark)
+                      || (themeMode === 'light' ? styles.buttonCartSMLight : styles.buttonCartSMDark)
+                      }
+                onPress={() => {onPressModal()}}
                 >
                 <Text style={styles.buttonCartText}>Pay Now</Text>
                 </Pressable>
             </View>
+            <ModalAlert 
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              mensaje={mensaje}
+            />
         </View>
       </Card>
       );
@@ -48,7 +76,7 @@ const OrderItem = ({ order, total, updatedAt}) => {
 export default OrderItem;
 
 const styles = StyleSheet.create({
-  additionalStylesCard: {
+  additionalStylesCardLight: {
     borderRadius: 40,
     paddingHorizontal: 40,
     height: 500,
@@ -65,10 +93,42 @@ const styles = StyleSheet.create({
     marginTop: 50,
     alignSelf: 'center'
   },
-  additionalStylesCardSM: {
+  additionalStylesCardDark: {
+    borderRadius: 40,
+    paddingHorizontal: 40,
+    height: 500,
+    width: 350,
+    backgroundColor: colors.greyDark,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    elevation: 20,
+    marginTop: 50,
+    alignSelf: 'center'
+  },
+  additionalStylesCardSMLight: {
     borderRadius: 40,
     width: 275,
     backgroundColor: colors.primary,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    elevation: 20,
+    marginTop: 50,
+    alignSelf: 'center'
+  },
+  additionalStylesCardSMDark: {
+    borderRadius: 40,
+    width: 275,
+    backgroundColor: colors.greyDark,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -91,10 +151,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "35%",
   },
-  textCategory: {
+  textCategoryLight: {
     fontSize: 20,
     fontFamily: "SofiaBold",
     color: colors.secondary,
+  },
+  textCategoryDark: {
+    fontSize: 20,
+    fontFamily: "SofiaBold",
+    color: colors.white,
   },
   textPrice: {
     width: 100,
@@ -115,10 +180,15 @@ const styles = StyleSheet.create({
     fontFamily: 'SofiaBold',
     color: colors.secondary,
   },
-  textoSubtotal: {
+  textoSubtotalLight: {
     fontSize: 26,
     fontFamily: 'SofiaExtraBold',
     color: colors.secondary,
+  },
+  textoSubtotalDark: {
+    fontSize: 26,
+    fontFamily: 'SofiaExtraBold',
+    color: colors.orange,
   },
   price: {
     fontSize: 22,
@@ -134,7 +204,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '100%'
   },
-  buttonCart: {
+  buttonCartLight: {
     marginTop: 10,
     backgroundColor: colors.secondary,
     borderRadius: 40,
@@ -143,9 +213,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonCartSM: {
+  buttonCartDark: {
+    marginTop: 10,
+    backgroundColor: colors.orange,
+    borderRadius: 40,
+    padding: 10,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonCartSMLight: {
     marginTop: 30,
     backgroundColor: colors.secondary,
+    borderRadius: 40,
+    padding: 10,
+    height: 50,
+    width: 180,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonCartSMDark: {
+    marginTop: 30,
+    backgroundColor: colors.orange,
     borderRadius: 40,
     padding: 10,
     height: 50,

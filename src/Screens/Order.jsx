@@ -1,16 +1,27 @@
-import { StyleSheet, View, Dimensions, Text, Image } from "react-native";
-import React from "react";
+import { StyleSheet, View, Dimensions, Text, Image, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
 import OrderItem from "../Components/OrderItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddButton from "../Components/AddButton";
+import { colors } from "../Global/Colors";
+import { clearOrder } from "../Features/Order/orderSlice";
 
 const {width} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
 
 const Order = ({navigation}) => {
 
-  const { items: allCart, total, updatedAt, isCheckout }= useSelector(state => state.cartReducer.value);
+  //Dark Mode Theme
+  const theme = useSelector(state => state.themeReducer.mode);
+  const [themeMode, setThemeMode] = useState(theme);
 
+  useEffect(() => {
+    setThemeMode(theme);
+  }, [theme])
+  /*  */
+
+  const { items: allCart, total, updatedAt, isCheckout } = useSelector(state => state.orderReducer.value);
+  
   return (
     <>
     { isCheckout ? (
@@ -20,8 +31,8 @@ const Order = ({navigation}) => {
     ) : 
     <View style={styles.container}>
       <Image style={styles.image} source={require("../Assets/img/EmptyOrder.png")}/>
-      <Text style={styles.title}>No Orders Yet</Text> 
-      <Text style={styles.text}>Looks like you haven´t made your order yet.</Text>
+      <Text style={themeMode === 'light' ? styles.titleLight : styles.titleDark}>No Orders Yet</Text> 
+      <Text style={themeMode === 'light' ? styles.textLight : styles.textDark}>Looks like you haven´t made your order yet.</Text>
       <AddButton
         title="Go Back"
         onPress={() => navigation.goBack()}
@@ -47,16 +58,32 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     marginBottom: 40,
   },
-  title: {
+  titleLight: {
     fontSize: 36,
     fontFamily: 'SofiaExtraBold',
-    letterSpacing: 1
+    letterSpacing: 1,
+    color: colors.secondary,
   },
-  text: {
+  titleDark: {
+    fontSize: 36,
+    fontFamily: 'SofiaExtraBold',
+    letterSpacing: 1,
+    color: colors.white,
+  },
+  textLight: {
     fontSize: 20,
     fontFamily: 'SofiaBold',
     color: 'grey',
     letterSpacing: 0.5,
     marginBottom: 30,
+    color: colors.secondary,
+  },
+  textDark: {
+    fontSize: 20,
+    fontFamily: 'SofiaBold',
+    color: 'grey',
+    letterSpacing: 0.5,
+    marginBottom: 30,
+    color: colors.white,
   },
 });
