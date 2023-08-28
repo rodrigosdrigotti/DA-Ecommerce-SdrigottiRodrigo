@@ -10,12 +10,14 @@ import { addOrderItem } from "../Features/Order/orderSlice";
 
 const Cart = ({ navigation }) => {
 
+  //Dark Mode Theme
   const theme = useSelector(state => state.themeReducer.mode);
   const [themeMode, setThemeMode] = useState(theme);
 
   useEffect(() => {
     setThemeMode(theme);
   }, [theme])
+  /*  */
 
   const { width } = useWindowDimensions();
   const { items: allCart, total, updatedAt, user, orderId }= useSelector(state => state.cartReducer.value);

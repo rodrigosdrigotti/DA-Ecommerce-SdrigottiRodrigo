@@ -33,7 +33,6 @@ const ItemDetail = () => {
 
   const [product, setProduct] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [textToast, setTextToast] = useState("");
 
   useEffect(() => {
     setProduct(productIdSelected);
@@ -41,7 +40,7 @@ const ItemDetail = () => {
   }, [productIdSelected, count]);
 
   const onAddCart = () => {
-    
+    //Check if the product is in stock
     if(count <= productIdSelected.stock) {
       dispatch(addCartItem({
         ...product,

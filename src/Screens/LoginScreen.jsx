@@ -50,7 +50,7 @@ const LoginScreen = ({navigation}) => {
                         idToken: resultSignIn.data.idToken,
                         localId: resultSignIn.data.localId,
                     })
-                    //Seteamos el usuario en userSlice
+                    //Set user in userSlice
                     dispatch(setUser({
                         email: resultSignIn.data.email,
                         idToken: resultSignIn.data.idToken,

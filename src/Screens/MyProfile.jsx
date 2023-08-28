@@ -14,6 +14,7 @@ const MyProfile = ({navigation}) => {
     const dispatch = useDispatch();
     const [checked, setChecked] = useState(false);
     
+    //Button Switch to set Theme Mode
     const toggleSwitch = () => {
         setChecked(!checked);
         if(theme === 'light') {
