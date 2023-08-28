@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import * as Location from "expo-location";
-import AddButton from "../Components/AddButton";
-import { usePostUserLocationMutation } from "../Services/shopServices";
 import { useDispatch, useSelector } from "react-redux";
+import * as Location from "expo-location";
+
+import { google_maps_api_key } from "../Database/firebaseConfig";
+import { usePostUserLocationMutation } from "../Services/shopServices";
 import { setUserLocation } from "../Features/User/userSlice";
 import { colors } from "../Global/Colors";
+import AddButton from "../Components/AddButton";
 import MapPreview from "../Components/MapPreview";
-import { google_maps_api_key } from "../Database/firebaseConfig";
 
 const LocationSelector = ({ navigation }) => {
 

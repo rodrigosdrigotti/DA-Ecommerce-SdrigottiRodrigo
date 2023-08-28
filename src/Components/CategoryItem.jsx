@@ -10,7 +10,8 @@ const CategoryItem = ({ item, navigation }) => {
 
   const { width } = useWindowDimensions();
   const dispatch = useDispatch();
-
+  
+  // Dispatch Select Category
   const onSelectCategory = () => {
     dispatch(setCategorySelected(item.category))
     navigation.navigate('ItemListCategory', {category: item.category})

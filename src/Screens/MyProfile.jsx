@@ -2,6 +2,7 @@ import { Image, StyleSheet, View, Text, Pressable, Switch, ScrollView } from "re
 import { FontAwesome, FontAwesome5, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
+
 import { useGetProfileImageQuery } from "../Services/shopServices";
 import { colors } from "../Global/Colors";
 import { setMode } from "../Features/Theme/themeSlice";

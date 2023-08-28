@@ -1,12 +1,13 @@
 import { StyleSheet, FlatList, View, Text, Pressable, useWindowDimensions, Image } from "react-native";
 import React, { useEffect, useState } from "react";
-import { colors } from "../Global/Colors";
-import CartItem from "../Components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
-import { usePostCartMutation } from "../Services/shopServices";
-import { clearCart } from "../Features/Cart/cartSlice";
+
+import CartItem from "../Components/CartItem";
 import AddButton from "../Components/AddButton";
+import { usePostCartMutation } from "../Services/shopServices";
 import { addOrderItem } from "../Features/Order/orderSlice";
+import { clearCart } from "../Features/Cart/cartSlice";
+import { colors } from "../Global/Colors";
 
 const Cart = ({ navigation }) => {
 

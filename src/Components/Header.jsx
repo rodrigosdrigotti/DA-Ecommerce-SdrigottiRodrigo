@@ -25,6 +25,7 @@ const Header = ({ route, navigation }) => {
   const { email, localId } = useSelector((state) => state.userReducer.value);
   const { totalQuantity} = useSelector(state => state.cartReducer.value);
 
+  //Sign Out Session and User
   const onSignout = async () => {
     try {
         const response = await deleteSession(localId)

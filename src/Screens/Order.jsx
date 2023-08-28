@@ -1,10 +1,10 @@
-import { StyleSheet, View, Dimensions, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Dimensions, Text, Image } from "react-native";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import OrderItem from "../Components/OrderItem";
-import { useDispatch, useSelector } from "react-redux";
 import AddButton from "../Components/AddButton";
 import { colors } from "../Global/Colors";
-import { clearOrder } from "../Features/Order/orderSlice";
 
 const {width} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
